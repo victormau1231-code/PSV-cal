@@ -1,0 +1,24 @@
+# Build outputs
+bin/
+obj/
+publish/
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.user
+*.suo
+
+# Test and coverage outputs
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+# Local scratch artifacts
+.codex-temp/
+artifacts/
+
+# OS files
+Thumbs.db
+Desktop.ini

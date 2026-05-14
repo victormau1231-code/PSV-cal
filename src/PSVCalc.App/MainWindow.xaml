@@ -1,0 +1,894 @@
+﻿<Window x:Class="PSVCalc.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:expert="clr-namespace:PSVCalc.App.Features.Expert"
+        xmlns:history="clr-namespace:PSVCalc.App.Features.History"
+        xmlns:inputs="clr-namespace:PSVCalc.App.Features.Inputs"
+        xmlns:results="clr-namespace:PSVCalc.App.Features.Results"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="{Binding Loc[app_title], FallbackValue=PSV Calculator Pro V 1.3.1, TargetNullValue=PSV Calculator Pro V 1.3.1}"
+        Height="980"
+        Width="1540"
+        MinHeight="860"
+        MinWidth="1380"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource BrushWindowBackground}"
+        FontFamily="{DynamicResource AppFontFamily}"
+        FontSize="13">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
+        <Style x:Key="CardBorder" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource BrushCardBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushCardBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusCard}" />
+            <Setter Property="Padding" Value="16" />
+            <Setter Property="Margin" Value="0,0,0,12" />
+            <Setter Property="Effect" Value="{DynamicResource ThemeCardEffect}" />
+        </Style>
+
+        <Style x:Key="SectionTitleStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{DynamicResource BrushPrimary}" />
+        </Style>
+
+        <Style x:Key="SectionHintStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Foreground" Value="{DynamicResource BrushSectionHint}" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Visibility" Value="Collapsed" />
+        </Style>
+
+        <Style x:Key="FieldCardStyle" TargetType="Border">
+            <Setter Property="Width" Value="228" />
+            <Setter Property="MinHeight" Value="94" />
+            <Setter Property="Background" Value="{DynamicResource BrushCardBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushCardBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusCard}" />
+            <Setter Property="Padding" Value="12" />
+            <Setter Property="Margin" Value="0,0,10,10" />
+            <Setter Property="Effect" Value="{DynamicResource ThemeCardEffect}" />
+        </Style>
+
+        <Style x:Key="OverviewPanelStyle" TargetType="Border" BasedOn="{StaticResource CardBorder}">
+            <Setter Property="Padding" Value="16" />
+            <Setter Property="Margin" Value="0,0,0,12" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusSheet}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushCardBorder}" />
+            <Setter Property="Background" Value="{DynamicResource BrushOverviewPanelBackground}" />
+            <Setter Property="Effect" Value="{DynamicResource ThemeCardEffect}" />
+        </Style>
+
+        <Style x:Key="OverviewFieldCardStyle" TargetType="Border" BasedOn="{StaticResource FieldCardStyle}">
+            <Setter Property="Width" Value="Auto" />
+            <Setter Property="MinHeight" Value="88" />
+            <Setter Property="Padding" Value="14,12,14,14" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusLarge}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushCardBorder}" />
+            <Setter Property="Background" Value="{DynamicResource BrushOverviewFieldBackground}" />
+            <Setter Property="Effect" Value="{DynamicResource ThemeCardEffect}" />
+        </Style>
+
+        <Style x:Key="CoefficientFieldCardStyle" TargetType="Border" BasedOn="{StaticResource OverviewFieldCardStyle}">
+            <Setter Property="Width" Value="158" />
+            <Setter Property="MinHeight" Value="118" />
+            <Setter Property="Padding" Value="10,10,10,10" />
+            <Setter Property="Margin" Value="0,0,10,10" />
+        </Style>
+
+        <Style x:Key="WideFieldCardStyle" TargetType="Border" BasedOn="{StaticResource FieldCardStyle}">
+            <Setter Property="Width" Value="466" />
+            <Setter Property="MinHeight" Value="0" />
+        </Style>
+
+        <Style x:Key="MatrixFieldCardStyle" TargetType="Border" BasedOn="{StaticResource FieldCardStyle}">
+            <Setter Property="Width" Value="Auto" />
+            <Setter Property="MinHeight" Value="96" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+
+        <Style x:Key="InfoBannerCardStyle" TargetType="Border" BasedOn="{StaticResource CardBorder}">
+            <Setter Property="Padding" Value="16,14" />
+            <Setter Property="Margin" Value="0,0,0,14" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusLarge}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushCardBorder}" />
+            <Setter Property="Background" Value="{DynamicResource BrushInfoBannerBackground}" />
+        </Style>
+
+        <Style x:Key="FieldLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource BrushTextMuted}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,0,0,6" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style x:Key="OverviewFieldLabelStyle" TargetType="TextBlock" BasedOn="{StaticResource FieldLabelStyle}">
+            <Setter Property="Foreground" Value="{DynamicResource BrushFieldLabel}" />
+            <Setter Property="Margin" Value="0,0,0,8" />
+        </Style>
+
+        <Style x:Key="CoefficientFieldLabelStyle" TargetType="TextBlock" BasedOn="{StaticResource OverviewFieldLabelStyle}">
+            <Setter Property="Margin" Value="0,0,0,6" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        </Style>
+
+        <Style x:Key="FieldHintStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource BrushFieldHint}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Margin" Value="0,6,0,0" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="Visibility" Value="Collapsed" />
+        </Style>
+
+        <Style x:Key="LargeTabItemStyle" TargetType="TabItem">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{DynamicResource BrushTabForeground}" />
+            <Setter Property="Background" Value="{DynamicResource BrushTabBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushTabBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="20,10" />
+            <Setter Property="Margin" Value="0,0,8,0" />
+            <Setter Property="MinHeight" Value="48" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border x:Name="TabChrome"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{DynamicResource ThemeCornerRadiusTab}"
+                                Padding="{TemplateBinding Padding}"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              ContentSource="Header"
+                                              RecognizesAccessKey="True" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="TabChrome" Property="Background" Value="{DynamicResource BrushTabSelectedBackground}" />
+                                <Setter TargetName="TabChrome" Property="BorderBrush" Value="{DynamicResource BrushTabSelectedBorder}" />
+                                <Setter Property="Foreground" Value="{DynamicResource BrushTabSelectedForeground}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="TabChrome" Property="Background" Value="{DynamicResource BrushTabHoverBackground}" />
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="True" />
+                                    <Condition Property="IsMouseOver" Value="True" />
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="TabChrome" Property="Background" Value="{DynamicResource BrushTabSelectedBorder}" />
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="TabChrome" Property="Opacity" Value="0.55" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LargeTabControlStyle" TargetType="TabControl">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+
+        <Style x:Key="InputStyle" TargetType="Control">
+            <Setter Property="Height" Value="36" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Foreground" Value="{DynamicResource BrushTextMain}" />
+            <Setter Property="Background" Value="{DynamicResource BrushInputBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushInputBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="10,4" />
+        </Style>
+
+        <Style x:Key="InputTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource InputStyle}">
+            <Setter Property="ToolTipService.InitialShowDelay" Value="0" />
+            <Setter Property="ToolTipService.ShowDuration" Value="60000" />
+            <EventSetter Event="GotKeyboardFocus" Handler="InputHint_GotKeyboardFocus" />
+            <EventSetter Event="LostKeyboardFocus" Handler="InputHint_LostKeyboardFocus" />
+            <Style.Triggers>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="{DynamicResource BrushInputBorderFocus}" />
+                    <Setter Property="Background" Value="{DynamicResource BrushCardBackground}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="InputComboBoxStyle" TargetType="ComboBox" BasedOn="{StaticResource InputStyle}">
+            <Setter Property="ToolTipService.InitialShowDelay" Value="0" />
+            <Setter Property="ToolTipService.ShowDuration" Value="60000" />
+            <EventSetter Event="GotKeyboardFocus" Handler="InputHint_GotKeyboardFocus" />
+            <EventSetter Event="LostKeyboardFocus" Handler="InputHint_LostKeyboardFocus" />
+            <Style.Triggers>
+                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                    <Setter Property="BorderBrush" Value="{DynamicResource BrushInputBorderFocus}" />
+                    <Setter Property="Background" Value="{DynamicResource BrushCardBackground}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="OverviewInputTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource InputTextBoxStyle}">
+            <Setter Property="Height" Value="42" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Background" Value="{DynamicResource BrushInputBackgroundElevated}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushCardBorder}" />
+            <Setter Property="Padding" Value="12,6" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="CoefficientInputTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource OverviewInputTextBoxStyle}">
+            <Setter Property="Height" Value="38" />
+            <Setter Property="Padding" Value="10,4" />
+        </Style>
+
+        <Style x:Key="OverviewComboBoxItemStyle" TargetType="ComboBoxItem">
+            <Setter Property="Foreground" Value="{DynamicResource BrushTextMain}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="12,8" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="ItemChrome"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="7"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="ItemChrome" Property="Background" Value="{DynamicResource BrushComboItemHover}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="ItemChrome" Property="Background" Value="{DynamicResource BrushComboItemSelected}" />
+                                <Setter Property="Foreground" Value="{DynamicResource BrushComboItemSelectedForeground}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ItemChrome" Property="Opacity" Value="0.55" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="OverviewInputComboBoxStyle" TargetType="ComboBox" BasedOn="{StaticResource InputComboBoxStyle}">
+            <Setter Property="Height" Value="42" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Background" Value="{DynamicResource BrushInputBackgroundElevated}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushCardBorder}" />
+            <Setter Property="Padding" Value="10,4" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource OverviewComboBoxItemStyle}" />
+            <Setter Property="MaxDropDownHeight" Value="320" />
+        </Style>
+
+        <Style x:Key="CoefficientInputComboBoxStyle" TargetType="ComboBox" BasedOn="{StaticResource OverviewInputComboBoxStyle}">
+            <Setter Property="Height" Value="38" />
+            <Setter Property="Padding" Value="8,3" />
+        </Style>
+
+        <Style x:Key="ToggleCheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{DynamicResource BrushToggleText}" />
+            <Setter Property="Margin" Value="0,0,0,4" />
+        </Style>
+
+        <Style x:Key="ActionButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="48" />
+            <Setter Property="Padding" Value="16,10" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushActionBorder}" />
+            <Setter Property="Background" Value="{DynamicResource BrushActionBackground}" />
+            <Setter Property="Foreground" Value="{DynamicResource BrushActionForeground}" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Chrome"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{DynamicResource ThemeCornerRadiusControl}"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              RecognizesAccessKey="True" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource BrushActionHoverBackground}" />
+                                <Setter TargetName="Chrome" Property="BorderBrush" Value="{DynamicResource BrushActionHoverBorder}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource BrushActionPressedBackground}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Chrome" Property="Opacity" Value="0.55" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PrimaryActionButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
+            <Setter Property="Background" Value="{DynamicResource BrushPrimaryActionBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushPrimaryActionBorder}" />
+            <Setter Property="Foreground" Value="{DynamicResource BrushPrimaryActionForeground}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Chrome"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{DynamicResource ThemeCornerRadiusControl}"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              RecognizesAccessKey="True" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource BrushPrimaryActionHoverBackground}" />
+                                <Setter TargetName="Chrome" Property="BorderBrush" Value="{DynamicResource BrushPrimaryActionHoverBorder}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource BrushPrimaryActionPressedBackground}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Chrome" Property="Opacity" Value="0.55" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="HeaderToolStripStyle" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource BrushHeaderStripBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushHeaderStripBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusControl}" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Margin" Value="0,12,0,0" />
+        </Style>
+
+        <Style x:Key="HeaderToolButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="34" />
+            <Setter Property="Padding" Value="12,6" />
+            <Setter Property="Margin" Value="0,0,8,0" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{DynamicResource BrushTextOnPrimary}" />
+            <Setter Property="Background" Value="{DynamicResource BrushHeaderToolBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushHeaderToolBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Chrome"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{DynamicResource ThemeCornerRadiusSmall}"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              RecognizesAccessKey="True" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource BrushHeaderToolHoverBackground}" />
+                                <Setter TargetName="Chrome" Property="BorderBrush" Value="{DynamicResource BrushHeaderToolHoverBorder}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource BrushHeaderToolPressedBackground}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Chrome" Property="Opacity" Value="0.55" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="HeaderPrimaryToolButtonStyle" TargetType="Button" BasedOn="{StaticResource HeaderToolButtonStyle}">
+            <Setter Property="Background" Value="{DynamicResource BrushHeaderPrimaryBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushHeaderPrimaryBorder}" />
+            <Setter Property="Foreground" Value="{DynamicResource BrushHeaderPrimaryForeground}" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Padding" Value="14,6" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource BrushHeaderPrimaryHoverBackground}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource BrushHeaderPrimaryHoverBorder}" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource BrushHeaderPrimaryPressedBackground}" />
+                </Trigger>
+                <DataTrigger Binding="{Binding IsCalculationStale}" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource BrushHeaderPrimaryDirtyBackground}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource BrushHeaderPrimaryDirtyBorder}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="HeaderMetaLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource BrushTextOnPrimaryMuted}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="HeaderBadgeHostStyle" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource BrushHeaderToolBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushHeaderToolBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusControl}" />
+            <Setter Property="Padding" Value="10,8" />
+        </Style>
+
+        <Style x:Key="SnapshotHeroStyle" TargetType="Border">
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushCardBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusLarge}" />
+            <Setter Property="Padding" Value="16" />
+            <Setter Property="Margin" Value="0,0,0,12" />
+            <Setter Property="Background" Value="{DynamicResource BrushSnapshotHeroBackground}" />
+        </Style>
+
+        <Style x:Key="SnapshotMiniCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource BrushCardBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushCardBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusControl}" />
+            <Setter Property="Padding" Value="10" />
+            <Setter Property="Margin" Value="0,0,8,8" />
+        </Style>
+
+        <Style x:Key="SnapshotAsideStyle" TargetType="Border">
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusCard}" />
+            <Setter Property="Padding" Value="12" />
+            <Setter Property="Margin" Value="14,0,0,0" />
+            <Setter Property="Background" Value="{DynamicResource BrushAccentPanelBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushAccentPanelBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+
+        <Style x:Key="ActionGridButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
+            <Setter Property="Height" Value="48" />
+        </Style>
+
+        <Style x:Key="MetricTileStyle" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource BrushMetricChipBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushMetricChipBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusControl}" />
+            <Setter Property="Padding" Value="14" />
+            <Setter Property="Margin" Value="0,0,12,12" />
+        </Style>
+
+        <Style x:Key="ReportSheetStyle" TargetType="Border">
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushCardBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusSheet}" />
+            <Setter Property="Padding" Value="20" />
+            <Setter Property="Background" Value="{DynamicResource BrushReportSheetBackground}" />
+        </Style>
+
+        <Style x:Key="ReportSectionCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource BrushReportSectionBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushReportSectionBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusCard}" />
+            <Setter Property="Padding" Value="16" />
+            <Setter Property="Margin" Value="0,0,12,0" />
+        </Style>
+
+        <Style x:Key="SummaryHeroCardStyle" TargetType="Border" BasedOn="{StaticResource ReportSectionCardStyle}">
+            <Setter Property="Height" Value="224" />
+            <Setter Property="Padding" Value="22" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+
+        <Style x:Key="SummaryInfoCardStyle" TargetType="Border" BasedOn="{StaticResource ReportSectionCardStyle}">
+            <Setter Property="Height" Value="198" />
+            <Setter Property="Padding" Value="18" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+
+        <Style x:Key="ReportPillStyle" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource BrushReportPillBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushReportPillBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusSmall}" />
+            <Setter Property="Padding" Value="12,7" />
+            <Setter Property="Margin" Value="0,0,10,0" />
+            <Setter Property="MinWidth" Value="88" />
+        </Style>
+
+        <Style x:Key="ReportSectionTitleStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource BrushReportPillText}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+
+        <Style x:Key="ReportHeroValueStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource BrushPrimary}" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+
+        <Style x:Key="ReportMinorValueStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource BrushReportMinorText}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style x:Key="ReportDataLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource BrushReportDataLabel}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,0,0,4" />
+        </Style>
+
+        <Style x:Key="ReportDataValueStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource BrushTextMain}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style x:Key="ReportDataHintStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource BrushReportDataHint}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Margin" Value="0,6,0,0" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style x:Key="PressureChainContainerStyle" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource BrushPressureChainBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushPressureChainBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusLarge}" />
+            <Setter Property="Padding" Value="16" />
+        </Style>
+
+        <Style x:Key="PressureChainStepCardStyle" TargetType="Border" BasedOn="{StaticResource ReportSectionCardStyle}">
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="16,14" />
+            <Setter Property="MinHeight" Value="126" />
+        </Style>
+
+        <Style x:Key="PressureChainArrowPillStyle" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource BrushPressureArrowBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushPressureArrowBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusPill}" />
+            <Setter Property="Padding" Value="10,6" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="PressureChainArrowTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource BrushPressureArrowText}" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="TextAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="ReportMetricChipStyle" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource BrushMetricChipBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushMetricChipBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusControl}" />
+            <Setter Property="Padding" Value="12,10" />
+            <Setter Property="Margin" Value="0,0,10,0" />
+        </Style>
+
+        <Style x:Key="ReportSelectionCardStyle" TargetType="Border">
+            <Setter Property="MinHeight" Value="252" />
+            <Setter Property="Background" Value="{DynamicResource BrushSelectionCardBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushSelectionCardBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusControl}" />
+            <Setter Property="Padding" Value="22" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+
+        <Style x:Key="ReportDarkLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource BrushTextOnPrimaryMuted}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+
+        <Style x:Key="ReportSelectionValueStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource BrushTextOnPrimary}" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style x:Key="ReportDarkValueStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource BrushTextOnPrimary}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style x:Key="ResultLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource BrushTextSubtle}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+
+        <Style x:Key="ResultValueStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource BrushTextMain}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,8,0,0" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style x:Key="GridCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource BrushGridCardBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushGridCardBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusSmall}" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0,8,0,0" />
+        </Style>
+
+        <Style x:Key="ModernDataGrid" TargetType="DataGrid">
+            <Setter Property="Background" Value="{DynamicResource BrushGridCardBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushGridCardBorder}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="GridLinesVisibility" Value="Horizontal" />
+            <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource BrushDataGridGridLine}" />
+            <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource BrushDataGridGridLine}" />
+            <Setter Property="AlternatingRowBackground" Value="{DynamicResource BrushDataGridAltRow}" />
+            <Setter Property="RowBackground" Value="{DynamicResource BrushCardBackground}" />
+            <Setter Property="RowHeaderWidth" Value="0" />
+            <Setter Property="CanUserAddRows" Value="False" />
+            <Setter Property="CanUserDeleteRows" Value="False" />
+            <Setter Property="CanUserResizeRows" Value="False" />
+            <Setter Property="CanUserReorderColumns" Value="False" />
+            <Setter Property="CanUserSortColumns" Value="True" />
+            <Setter Property="ColumnHeaderHeight" Value="36" />
+            <Setter Property="RowHeight" Value="34" />
+            <Setter Property="SelectionMode" Value="Single" />
+            <Setter Property="SelectionUnit" Value="FullRow" />
+            <Setter Property="HeadersVisibility" Value="Column" />
+            <Setter Property="ColumnHeaderStyle" Value="{DynamicResource ModernDataGridColumnHeader}" />
+            <Setter Property="CellStyle" Value="{DynamicResource ModernDataGridCell}" />
+            <Setter Property="RowStyle" Value="{DynamicResource ModernDataGridRow}" />
+        </Style>
+
+        <Style x:Key="ModernDataGridColumnHeader" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="{DynamicResource BrushDataGridHeaderBackground}" />
+            <Setter Property="Foreground" Value="{DynamicResource BrushDataGridHeaderForeground}" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushGridCardBorder}" />
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+            <Setter Property="Padding" Value="12,8" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+        </Style>
+
+        <Style x:Key="ModernDataGridCell" TargetType="DataGridCell">
+            <Setter Property="Padding" Value="12,7" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="{DynamicResource BrushDataGridCellForeground}" />
+        </Style>
+
+        <Style x:Key="ModernDataGridRow" TargetType="DataGridRow">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="ValidationErrorTemplate" Value="{x:Null}" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource BrushDataGridHoverRow}" />
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource BrushDataGridSelectedRow}" />
+                    <Setter Property="Foreground" Value="{DynamicResource BrushDataGridSelectedRowForeground}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="{DynamicResource BrushWindowBackground}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0"
+                Padding="18"
+                BorderBrush="{DynamicResource BrushHeaderBorder}"
+                BorderThickness="0,0,0,1"
+                Background="{DynamicResource BrushHeaderBackground}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Text="{Binding Loc[app_title]}"
+                           Foreground="{DynamicResource BrushTextOnPrimary}"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center" />
+                <StackPanel Grid.Row="0"
+                            Grid.Column="1"
+                            HorizontalAlignment="Right">
+                    <Border Style="{StaticResource HeaderBadgeHostStyle}"
+                            HorizontalAlignment="Right">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="ENGINEERING WORKBENCH"
+                                       Style="{StaticResource HeaderMetaLabelStyle}" />
+                            <Border Background="{DynamicResource BrushHeaderPrimaryBackground}"
+                                    BorderBrush="{DynamicResource BrushHeaderPrimaryBorder}"
+                                    BorderThickness="1"
+                                    CornerRadius="{DynamicResource ThemeCornerRadiusSmall}"
+                                    Padding="10,4"
+                                    Margin="12,0,0,0">
+                                <TextBlock Text="{Binding CurrentStandardLabel}"
+                                           Foreground="{DynamicResource BrushHeaderPrimaryForeground}"
+                                           FontSize="13"
+                                           FontWeight="SemiBold" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                    <TextBlock Text="{Binding StatusMessage}"
+                               Foreground="{DynamicResource BrushHeaderStatusText}"
+                               FontSize="13"
+                               Margin="0,6,0,0"
+                               HorizontalAlignment="Right"
+                               TextWrapping="Wrap"
+                               MaxWidth="420" />
+                </StackPanel>
+
+                <Border Grid.Row="1"
+                         Grid.ColumnSpan="2"
+                         Style="{StaticResource HeaderToolStripStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Row="0"
+                                Grid.Column="0"
+                                Content="{Binding Loc[calculate]}"
+                                Command="{Binding CalculateCommand}"
+                                Style="{StaticResource HeaderPrimaryToolButtonStyle}" />
+                        <Button Grid.Row="0"
+                                Grid.Column="1"
+                                Content="{Binding Loc[save_project]}"
+                                Command="{Binding SaveProjectCommand}"
+                                Style="{StaticResource HeaderToolButtonStyle}" />
+                        <Button Grid.Row="0"
+                                Grid.Column="2"
+                                Content="{Binding Loc[load_project]}"
+                                Command="{Binding LoadProjectCommand}"
+                                Style="{StaticResource HeaderToolButtonStyle}" />
+                        <Button Grid.Row="0"
+                                Grid.Column="3"
+                                Content="{Binding Loc[export_excel]}"
+                                Command="{Binding ExportExcelCommand}"
+                                Style="{StaticResource HeaderToolButtonStyle}" />
+                        <Button Grid.Row="0"
+                                Grid.Column="4"
+                                Content="{Binding Loc[validation_report]}"
+                                Command="{Binding ExportValidationReportCommand}"
+                                Style="{StaticResource HeaderToolButtonStyle}" />
+                        <Button Grid.Row="0"
+                                Grid.Column="5"
+                                Content="{Binding Loc[clear]}"
+                                Command="{Binding ClearCommand}"
+                                Style="{StaticResource HeaderToolButtonStyle}"
+                                Margin="0" />
+                        <TextBlock Grid.Row="1"
+                                   Grid.ColumnSpan="7"
+                                   Margin="2,10,0,0"
+                                   Text="{Binding CalculationPromptText}"
+                                   Foreground="{DynamicResource BrushHeaderDirtyText}"
+                                   FontSize="13"
+                                   FontWeight="SemiBold"
+                                   TextWrapping="Wrap"
+                                   Visibility="{Binding IsCalculationStale, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1" Margin="14">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.38*" />
+                <ColumnDefinition Width="1.42*" />
+            </Grid.ColumnDefinitions>
+            <inputs:InputPanel Grid.Column="0" />
+
+            <TabControl Grid.Column="1"
+                        Margin="14,0,0,0"
+                        Style="{DynamicResource LargeTabControlStyle}"
+                        ItemContainerStyle="{DynamicResource LargeTabItemStyle}">
+                <TabItem Header="{Binding Loc[results]}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled">
+                        <results:ResultPanel />
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="{Binding Loc[expert_title]}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled">
+                        <expert:ExpertPanel />
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="{Binding Loc[history]}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled">
+                        <history:HistoryPanel />
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+        </Grid>
+
+        <Border Grid.Row="2"
+                Padding="10,8"
+                BorderBrush="{DynamicResource BrushFooterBorder}"
+                BorderThickness="0,1,0,0"
+                Background="{DynamicResource BrushFooterBackground}">
+            <TextBlock Text="Copyright © 2026 VictorMa"
+                       HorizontalAlignment="Center"
+                       Foreground="{DynamicResource BrushFooterText}"
+                       FontSize="13"
+                       FontWeight="SemiBold" />
+        </Border>
+    </Grid>
+</Window>

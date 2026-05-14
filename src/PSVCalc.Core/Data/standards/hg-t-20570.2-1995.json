@@ -1,0 +1,85 @@
+{
+  "profileId": "hg-t-20570.2-1995",
+  "name": "HG/T 20570.2-1995",
+  "effectiveDate": "1995-00-00",
+  "source": "HG/T 20570.2《安全阀的设置和选用(下篇)：安全阀泄放量计算》",
+  "coefficients": [
+    {
+      "code": "KD_DEFAULT_GAS",
+      "value": 0.975,
+      "unit": "-",
+      "description": "Fallback discharge coefficient used when HG/T gas-service manufacturer data are unavailable in the current implementation.",
+      "clause": "8.0.3.2 / 8.0.3.3"
+    },
+    {
+      "code": "KD_DEFAULT_STEAM",
+      "value": 0.975,
+      "unit": "-",
+      "description": "Fallback discharge coefficient used when HG/T steam-service manufacturer data are unavailable in the current implementation.",
+      "clause": "8.0.3.4"
+    },
+    {
+      "code": "KB_DEFAULT",
+      "value": 1.0,
+      "unit": "-",
+      "description": "Default back pressure correction factor for spring-loaded safety valves.",
+      "clause": "8.0.3.2 / 8.0.3.3"
+    },
+    {
+      "code": "KC_DEFAULT",
+      "value": 1.0,
+      "unit": "-",
+      "description": "Default combination correction factor fallback for the current implementation.",
+      "clause": "Implementation fallback"
+    },
+    {
+      "code": "ATM_PRESSURE_PA",
+      "value": 101325.0,
+      "unit": "Pa",
+      "description": "Atmospheric pressure used for gauge to absolute conversion.",
+      "clause": "Implementation baseline"
+    },
+    {
+      "code": "R_UNIVERSAL",
+      "value": 8.314462618,
+      "unit": "J/(mol·K)",
+      "description": "Universal gas constant used in fallback property handling.",
+      "clause": "Implementation baseline"
+    },
+    {
+      "code": "STEAM_Z_MIN",
+      "value": 0.85,
+      "unit": "-",
+      "description": "Lower bound of simplified steam compressibility estimator when a full HG/T steam table workflow is unavailable.",
+      "clause": "Implementation fallback"
+    },
+    {
+      "code": "STEAM_Z_MAX",
+      "value": 1.03,
+      "unit": "-",
+      "description": "Upper bound of simplified steam compressibility estimator when a full HG/T steam table workflow is unavailable.",
+      "clause": "Implementation fallback"
+    },
+    {
+      "code": "HGT_MIN_APPLICABLE_PRESSURE_MPA",
+      "value": 0.2,
+      "unit": "MPa",
+      "description": "Minimum pressure range for HG/T 20570.2 applicability.",
+      "clause": "1.0.1"
+    },
+    {
+      "code": "HGT_MAX_APPLICABLE_PRESSURE_MPA",
+      "value": 100.0,
+      "unit": "MPa",
+      "description": "Upper pressure range limit for HG/T 20570.2 applicability.",
+      "clause": "1.0.1"
+    },
+    {
+      "code": "HGT_FIRE_GRADE_LIMIT_M",
+      "value": 7.5,
+      "unit": "m",
+      "description": "Wetted-height cap for external-fire wetted surface calculations in HG/T 20570.2.",
+      "clause": "7.0.10.2"
+    }
+  ]
+}

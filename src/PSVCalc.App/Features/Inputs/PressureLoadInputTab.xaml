@@ -1,0 +1,109 @@
+﻿<UserControl x:Class="PSVCalc.App.Features.Inputs.PressureLoadInputTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d">
+                                    <StackPanel Margin="0,14,0,0">
+                                        <Border Style="{DynamicResource WideFieldCardStyle}" Width="756">
+                                            <StackPanel>
+                                                <CheckBox Content="{Binding Loc[use_operating_pressure_basis]}"
+                                                          IsChecked="{Binding UseOperatingPressureBasis}"
+                                                          Style="{DynamicResource ToggleCheckBoxStyle}" />
+                                                <TextBlock Text="{Binding Loc[use_operating_pressure_hint]}"
+                                                           Style="{DynamicResource FieldHintStyle}" />
+                                            </StackPanel>
+                                        </Border>
+    
+                                        <WrapPanel>
+                                            <Border Style="{DynamicResource FieldCardStyle}"
+                                                    Visibility="{Binding ShowOperatingPressureInputs, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding OperatingPressureLabel}" Style="{DynamicResource FieldLabelStyle}" />
+                                                    <TextBox Text="{Binding OperatingPressure, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource InputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_operating_pressure]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource FieldCardStyle}"
+                                                    Visibility="{Binding ShowOperatingPressureInputs, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[allowed_overpressure_percent_input]}" Style="{DynamicResource FieldLabelStyle}" />
+                                                    <TextBox Text="{Binding AllowedOverpressurePercentInput, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource InputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_allowed_overpressure]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource FieldCardStyle}"
+                                                    Visibility="{Binding ShowManualSetAndRelievingInputs, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding CurrentPrimaryPressureLabel}" Style="{DynamicResource FieldLabelStyle}" />
+                                                    <TextBox Text="{Binding SetPressure, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource InputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_set_pressure]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource FieldCardStyle}"
+                                                    Visibility="{Binding ShowManualSetAndRelievingInputs, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding CurrentRelievingPressureLabel}" Style="{DynamicResource FieldLabelStyle}" />
+                                                    <TextBox Text="{Binding RelievingPressure, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource InputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_relieving_pressure]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource FieldCardStyle}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding BackPressureLabel}" Style="{DynamicResource FieldLabelStyle}" />
+                                                    <TextBox Text="{Binding BackPressure, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource InputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_back_pressure]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource FieldCardStyle}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding AtmosphericPressureLabel}" Style="{DynamicResource FieldLabelStyle}" />
+                                                    <TextBox Text="{Binding AtmosphericPressure, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource InputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_atmospheric_pressure]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource FieldCardStyle}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[blowdown_percent]}" Style="{DynamicResource FieldLabelStyle}" />
+                                                    <TextBox Text="{Binding BlowdownPercent, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource InputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_blowdown]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource FieldCardStyle}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[temperature_c]}" Style="{DynamicResource FieldLabelStyle}" />
+                                                    <TextBox Text="{Binding TemperatureC, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource InputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_temperature]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource FieldCardStyle}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[relief_load]}" Style="{DynamicResource FieldLabelStyle}" />
+                                                    <TextBox Text="{Binding ReliefLoadKgPerHour, UpdateSourceTrigger=LostFocus}"
+                                                             IsEnabled="{Binding IsManualReliefLoadEnabled}"
+                                                             Style="{DynamicResource InputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_relief_load]}" />
+                                                    <TextBlock Text="{Binding Loc[scenario_relief_load_auto_hint]}"
+                                                               Style="{DynamicResource FieldHintStyle}"
+                                                               Visibility="{Binding ShowAutoReliefLoadHint, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                </StackPanel>
+                                            </Border>
+                                        </WrapPanel>
+                                    </StackPanel>
+</UserControl>

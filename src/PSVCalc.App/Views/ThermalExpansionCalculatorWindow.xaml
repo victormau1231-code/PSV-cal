@@ -1,0 +1,243 @@
+<Window x:Class="PSVCalc.App.Views.ThermalExpansionCalculatorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Loc[thermal_expansion_calculator_title], FallbackValue=Thermal Expansion Calculator}"
+        Width="760"
+        Height="650"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize"
+        MinWidth="700"
+        MinHeight="580"
+        Background="{DynamicResource BrushWindowBackground}"
+        FontFamily="{DynamicResource AppFontFamily}"
+        FontSize="13">
+    <Window.Resources>
+        <Style x:Key="CardBorder" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource BrushCardBackground}" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusCard}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushCardBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="16" />
+            <Setter Property="Margin" Value="0,0,0,12" />
+            <Setter Property="Effect" Value="{DynamicResource ThemeCardEffect}" />
+        </Style>
+
+        <Style x:Key="HeroCardStyle" TargetType="Border" BasedOn="{StaticResource CardBorder}">
+            <Setter Property="Background" Value="{DynamicResource BrushHeaderBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushHeaderBorder}" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusLarge}" />
+        </Style>
+
+        <Style x:Key="FieldBorder" TargetType="Border">
+            <Setter Property="Width" Value="210" />
+            <Setter Property="Background" Value="{DynamicResource BrushOverviewFieldBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushCardBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="{DynamicResource ThemeCornerRadiusLarge}" />
+            <Setter Property="Padding" Value="12" />
+            <Setter Property="Margin" Value="0,0,12,12" />
+        </Style>
+
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource BrushFieldLabel}" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,0,0,6" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style x:Key="InputTextBox" TargetType="TextBox">
+            <Setter Property="Height" Value="38" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="10,4" />
+            <Setter Property="Foreground" Value="{DynamicResource BrushTextMain}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushInputBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="{DynamicResource BrushInputBackgroundElevated}" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Style.Triggers>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="{DynamicResource BrushInputBorderFocus}" />
+                    <Setter Property="Background" Value="{DynamicResource BrushCardBackground}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Padding" Value="14,6" />
+            <Setter Property="Margin" Value="0,0,8,0" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushActionBorder}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="{DynamicResource BrushActionBackground}" />
+            <Setter Property="Foreground" Value="{DynamicResource BrushActionForeground}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Chrome"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{DynamicResource ThemeCornerRadiusControl}"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              RecognizesAccessKey="True" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource BrushActionHoverBackground}" />
+                                <Setter TargetName="Chrome" Property="BorderBrush" Value="{DynamicResource BrushActionHoverBorder}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource BrushActionPressedBackground}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Chrome" Property="Opacity" Value="0.55" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PrimaryActionButton" TargetType="Button" BasedOn="{StaticResource ActionButton}">
+            <Setter Property="Background" Value="{DynamicResource BrushPrimaryActionBackground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushPrimaryActionBorder}" />
+            <Setter Property="Foreground" Value="{DynamicResource BrushPrimaryActionForeground}" />
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Style="{StaticResource HeroCardStyle}">
+            <StackPanel>
+                <TextBlock Text="{Binding Loc[thermal_expansion_calculator_title]}"
+                           Foreground="{DynamicResource BrushTextOnPrimary}"
+                           FontSize="18"
+                           FontWeight="Bold" />
+                <TextBlock Text="{Binding Loc[thermal_expansion_calculator_hint]}"
+                           Foreground="{DynamicResource BrushTextOnPrimaryMuted}"
+                           Margin="0,6,0,0"
+                           FontSize="13"
+                           TextWrapping="Wrap" />
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <Border Style="{StaticResource CardBorder}">
+                    <WrapPanel>
+                        <Border Style="{StaticResource FieldBorder}">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Loc[thermal_expansion_coefficient]}" Style="{StaticResource FieldLabel}" />
+                                <TextBox x:Name="ExpansionCoefficientTextBox" Style="{StaticResource InputTextBox}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource FieldBorder}">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Loc[thermal_expansion_heat_input]}" Style="{StaticResource FieldLabel}" />
+                                <TextBox x:Name="HeatInputTextBox" Style="{StaticResource InputTextBox}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource FieldBorder}">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Loc[liquid_density]}" Style="{StaticResource FieldLabel}" />
+                                <TextBox x:Name="LiquidDensityTextBox" Style="{StaticResource InputTextBox}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource FieldBorder}">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Loc[thermal_expansion_specific_heat]}" Style="{StaticResource FieldLabel}" />
+                                <TextBox x:Name="SpecificHeatTextBox" Style="{StaticResource InputTextBox}" />
+                            </StackPanel>
+                        </Border>
+                    </WrapPanel>
+                </Border>
+
+                <Border Style="{StaticResource CardBorder}" Background="{DynamicResource BrushInfoBannerBackground}">
+                    <StackPanel>
+                        <TextBlock Text="{Binding ThermalExpansionMethodNote}"
+                                   Foreground="{DynamicResource BrushTextMain}"
+                                   FontWeight="SemiBold"
+                                   FontSize="13"
+                                   TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Loc[thermal_expansion_formula_note]}"
+                                   Foreground="{DynamicResource BrushTextMuted}"
+                                   Margin="0,6,0,0"
+                                   FontSize="13"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource CardBorder}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.2*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{Binding Loc[thermal_expansion_result]}"
+                                       Foreground="{DynamicResource BrushPrimary}"
+                                       FontWeight="Bold"
+                                       FontSize="18" />
+                            <TextBlock x:Name="MassLoadTextBlock"
+                                       Margin="0,10,0,0"
+                                       FontSize="18"
+                                       FontWeight="Bold"
+                                       Foreground="{DynamicResource BrushPrimary}"
+                                       Text="0.000 kg/h" />
+                            <TextBlock x:Name="StatusTextBlock"
+                                       Margin="0,10,0,0"
+                                       Foreground="{DynamicResource BrushWarningText}"
+                                       FontSize="13"
+                                       TextWrapping="Wrap" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="{Binding Loc[thermal_expansion_volume_flow]}" Style="{StaticResource FieldLabel}" />
+                            <TextBlock x:Name="VolumeFlowTextBlock" Foreground="{DynamicResource BrushTextMain}" FontSize="13" />
+
+                            <TextBlock Text="{Binding Loc[relief_load]}" Style="{StaticResource FieldLabel}" Margin="0,12,0,6" />
+                            <TextBlock x:Name="ReliefLoadTextBlock" Foreground="{DynamicResource BrushTextMain}" FontSize="13" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Border Grid.Row="2" Style="{StaticResource CardBorder}" Margin="0,12,0,0">
+            <DockPanel LastChildFill="False">
+                <Button x:Name="PreviewButton"
+                        Content="{Binding Loc[thermal_expansion_preview]}"
+                        Click="PreviewCalculation_Click"
+                        Style="{StaticResource ActionButton}"
+                        DockPanel.Dock="Left" />
+                <Button x:Name="ApplyButton"
+                        Content="{Binding Loc[thermal_expansion_apply]}"
+                        Click="ApplyResult_Click"
+                        Style="{StaticResource PrimaryActionButton}"
+                        IsEnabled="False"
+                        DockPanel.Dock="Right" />
+                <Button Content="{Binding Loc[cancel]}"
+                        Click="Cancel_Click"
+                        Style="{StaticResource ActionButton}"
+                        DockPanel.Dock="Right" />
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

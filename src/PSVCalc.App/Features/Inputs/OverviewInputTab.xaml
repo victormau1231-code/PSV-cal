@@ -1,0 +1,134 @@
+﻿<UserControl x:Class="PSVCalc.App.Features.Inputs.OverviewInputTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d">
+                                    <StackPanel Margin="0,14,0,0">
+                                        <Border Style="{DynamicResource OverviewPanelStyle}">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="12" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="12" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="12" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="12" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+    
+                                                <Border Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        Style="{DynamicResource OverviewFieldCardStyle}">
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Loc[language]}" Style="{DynamicResource OverviewFieldLabelStyle}" />
+                                                        <ComboBox ItemsSource="{Binding LanguageOptions}"
+                                                                  DisplayMemberPath="Label"
+                                                                  SelectedValuePath="Value"
+                                                                  SelectedValue="{Binding Language}"
+                                                                  Style="{DynamicResource OverviewInputComboBoxStyle}" />
+                                                    </StackPanel>
+                                                </Border>
+    
+                                                <Border Grid.Row="0"
+                                                        Grid.Column="2"
+                                                        Style="{DynamicResource OverviewFieldCardStyle}">
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Loc[standard_basis]}" Style="{DynamicResource OverviewFieldLabelStyle}" />
+                                                        <ComboBox ItemsSource="{Binding StandardOptions}"
+                                                                  DisplayMemberPath="Label"
+                                                                  SelectedValuePath="Value"
+                                                                  SelectedValue="{Binding StandardBasis}"
+                                                                  Style="{DynamicResource OverviewInputComboBoxStyle}"
+                                                                  ToolTip="{Binding Loc[hint_standard_basis]}" />
+                                                    </StackPanel>
+                                                </Border>
+    
+                                                <Border Grid.Row="0"
+                                                        Grid.Column="4"
+                                                        Style="{DynamicResource OverviewFieldCardStyle}">
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Loc[case_name]}" Style="{DynamicResource OverviewFieldLabelStyle}" />
+                                                        <TextBox Text="{Binding CaseName, UpdateSourceTrigger=PropertyChanged}"
+                                                                 Style="{DynamicResource OverviewInputTextBoxStyle}" />
+                                                    </StackPanel>
+                                                </Border>
+    
+                                                <Border Grid.Row="2"
+                                                        Grid.Column="0"
+                                                        Style="{DynamicResource OverviewFieldCardStyle}">
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Loc[view_mode]}" Style="{DynamicResource OverviewFieldLabelStyle}" />
+                                                        <ComboBox ItemsSource="{Binding ViewModeOptions}"
+                                                                  DisplayMemberPath="Label"
+                                                                  SelectedValuePath="Value"
+                                                                  SelectedValue="{Binding ResultViewMode}"
+                                                                  Style="{DynamicResource OverviewInputComboBoxStyle}" />
+                                                    </StackPanel>
+                                                </Border>
+    
+                                                <Border Grid.Row="2"
+                                                        Grid.Column="2"
+                                                        Style="{DynamicResource OverviewFieldCardStyle}">
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Loc[fluid_type]}" Style="{DynamicResource OverviewFieldLabelStyle}" />
+                                                        <ComboBox ItemsSource="{Binding FluidOptions}"
+                                                                  DisplayMemberPath="Label"
+                                                                  SelectedValuePath="Value"
+                                                                  SelectedValue="{Binding FluidType}"
+                                                                  Style="{DynamicResource OverviewInputComboBoxStyle}"
+                                                                  ToolTip="{Binding Loc[hint_fluid_type]}" />
+                                                    </StackPanel>
+                                                </Border>
+    
+                                                <Border Grid.Row="2"
+                                                        Grid.Column="4"
+                                                        Style="{DynamicResource OverviewFieldCardStyle}">
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Loc[pressure_mode]}" Style="{DynamicResource OverviewFieldLabelStyle}" />
+                                                        <ComboBox ItemsSource="{Binding PressureModeOptions}"
+                                                                  DisplayMemberPath="Label"
+                                                                  SelectedValuePath="Value"
+                                                                  SelectedValue="{Binding PressureInputMode}"
+                                                                  Style="{DynamicResource OverviewInputComboBoxStyle}"
+                                                                  ToolTip="{Binding Loc[hint_pressure_mode]}" />
+                                                    </StackPanel>
+                                                </Border>
+    
+                                                <Border Grid.Row="4"
+                                                        Grid.Column="0"
+                                                        Style="{DynamicResource OverviewFieldCardStyle}">
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Loc[pressure_unit]}" Style="{DynamicResource OverviewFieldLabelStyle}" />
+                                                        <ComboBox ItemsSource="{Binding PressureUnitOptions}"
+                                                                  DisplayMemberPath="Label"
+                                                                  SelectedValuePath="Value"
+                                                                  SelectedValue="{Binding PressureUnit}"
+                                                                  Style="{DynamicResource OverviewInputComboBoxStyle}"
+                                                                  ToolTip="{Binding Loc[hint_pressure_unit]}" />
+                                                    </StackPanel>
+                                                </Border>
+    
+                                            </Grid>
+                                        </Border>
+    
+                                        <Border Style="{DynamicResource WideFieldCardStyle}"
+                                                Width="Auto"
+                                                Margin="0">
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Loc[notes]}" Style="{DynamicResource FieldLabelStyle}" />
+                                                <TextBox Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}"
+                                                         Style="{DynamicResource InputTextBoxStyle}"
+                                                         Height="72"
+                                                         TextWrapping="Wrap"
+                                                         AcceptsReturn="True"
+                                                         VerticalScrollBarVisibility="Auto" />
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+</UserControl>

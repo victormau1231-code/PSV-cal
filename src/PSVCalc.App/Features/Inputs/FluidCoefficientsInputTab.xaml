@@ -1,0 +1,205 @@
+﻿<UserControl x:Class="PSVCalc.App.Features.Inputs.FluidCoefficientsInputTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d">
+                                    <StackPanel Margin="0,14,0,0">
+                                        <Border Style="{DynamicResource OverviewPanelStyle}" Width="Auto">
+                                            <StackPanel>
+                                                <CheckBox Content="{Binding Loc[use_preset]}"
+                                                          IsChecked="{Binding UseGasPreset}"
+                                                          Visibility="{Binding IsGasFluid, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                          Style="{DynamicResource ToggleCheckBoxStyle}" />
+                                                <TextBlock Text="{Binding Loc[fluid_property_hint]}"
+                                                           Style="{DynamicResource FieldHintStyle}" />
+                                            </StackPanel>
+                                        </Border>
+    
+                                        <WrapPanel>
+                                            <Border Style="{DynamicResource CoefficientFieldCardStyle}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[valve_configuration]}" Style="{DynamicResource CoefficientFieldLabelStyle}" />
+                                                    <ComboBox ItemsSource="{Binding ValveConfigurationOptions}"
+                                                              DisplayMemberPath="Label"
+                                                              SelectedValuePath="Value"
+                                                              SelectedValue="{Binding ValveConfiguration}"
+                                                              Style="{DynamicResource CoefficientInputComboBoxStyle}"
+                                                              ToolTip="{Binding Loc[hint_valve_configuration]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource CoefficientFieldCardStyle}"
+                                                    Visibility="{Binding ShowSinglePhaseGasInputs, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[gas_preset]}" Style="{DynamicResource CoefficientFieldLabelStyle}" />
+                                                    <ComboBox ItemsSource="{Binding GasPresetOptions}"
+                                                              DisplayMemberPath="Label"
+                                                              SelectedItem="{Binding SelectedGasPreset}"
+                                                              Style="{DynamicResource CoefficientInputComboBoxStyle}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource CoefficientFieldCardStyle}"
+                                                    Visibility="{Binding ShowSinglePhaseGasInputs, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[molecular_weight]}" Style="{DynamicResource CoefficientFieldLabelStyle}" />
+                                                    <TextBox Text="{Binding MolecularWeight, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource CoefficientInputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_molecular_weight]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource CoefficientFieldCardStyle}"
+                                                    Visibility="{Binding ShowSinglePhaseGasInputs, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[isentropic_k]}" Style="{DynamicResource CoefficientFieldLabelStyle}" />
+                                                    <TextBox Text="{Binding IsentropicExponentK, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource CoefficientInputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_isentropic_k]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource CoefficientFieldCardStyle}"
+                                                    Visibility="{Binding ShowSinglePhaseGasInputs, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[compressibility_z]}" Style="{DynamicResource CoefficientFieldLabelStyle}" />
+                                                    <TextBox Text="{Binding CompressibilityFactorZ, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource CoefficientInputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_compressibility_z]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource CoefficientFieldCardStyle}"
+                                                    Visibility="{Binding ShowSinglePhaseLiquidInputs, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[liquid_density]}" Style="{DynamicResource CoefficientFieldLabelStyle}" />
+                                                    <TextBox Text="{Binding LiquidDensityKgPerM3, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource CoefficientInputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_liquid_density]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource OverviewPanelStyle}"
+                                                    Width="Auto"
+                                                    Visibility="{Binding IsTwoPhaseFluid, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[two_phase_title]}" Style="{DynamicResource OverviewFieldLabelStyle}" />
+                                                    <TextBlock Text="{Binding Loc[two_phase_hint]}"
+                                                               Style="{DynamicResource FieldHintStyle}"
+                                                               Margin="0" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource CoefficientFieldCardStyle}"
+                                                    Visibility="{Binding ShowTwoPhaseEquilibriumInputs, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[two_phase_inlet_specific_volume]}" Style="{DynamicResource CoefficientFieldLabelStyle}" />
+                                                    <TextBox Text="{Binding TwoPhaseInletSpecificVolumeM3PerKg, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource CoefficientInputTextBoxStyle}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource CoefficientFieldCardStyle}"
+                                                    Visibility="{Binding ShowTwoPhaseEquilibriumInputs, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[two_phase_reference_specific_volume]}" Style="{DynamicResource CoefficientFieldLabelStyle}" />
+                                                    <TextBox Text="{Binding TwoPhaseSpecificVolumeAtNinetyPercentPressureM3PerKg, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource CoefficientInputTextBoxStyle}" />
+                                                    <TextBlock Text="{Binding Loc[two_phase_reference_specific_volume_hint]}"
+                                                               Style="{DynamicResource FieldHintStyle}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource CoefficientFieldCardStyle}"
+                                                    Visibility="{Binding ShowTwoPhaseSubcooledInputs, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[liquid_density]}" Style="{DynamicResource CoefficientFieldLabelStyle}" />
+                                                    <TextBox Text="{Binding LiquidDensityKgPerM3, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource CoefficientInputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_liquid_density]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource CoefficientFieldCardStyle}"
+                                                    Visibility="{Binding ShowTwoPhaseSubcooledInputs, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[two_phase_reference_density]}" Style="{DynamicResource CoefficientFieldLabelStyle}" />
+                                                    <TextBox Text="{Binding TwoPhaseDensityAtNinetyPercentSaturationPressureKgPerM3, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource CoefficientInputTextBoxStyle}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource CoefficientFieldCardStyle}"
+                                                    Visibility="{Binding ShowTwoPhaseSubcooledInputs, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding TwoPhaseSaturationPressureAbsoluteLabel}" Style="{DynamicResource CoefficientFieldLabelStyle}" />
+                                                    <TextBox Text="{Binding TwoPhaseSaturationPressureAbsolute, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource CoefficientInputTextBoxStyle}" />
+                                                    <TextBlock Text="{Binding Loc[two_phase_saturation_pressure_hint]}"
+                                                               Style="{DynamicResource FieldHintStyle}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource CoefficientFieldCardStyle}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[kd]}" Style="{DynamicResource CoefficientFieldLabelStyle}" />
+                                                    <TextBox Text="{Binding DischargeCoefficientKd, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource CoefficientInputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_kd]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource CoefficientFieldCardStyle}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[kb]}" Style="{DynamicResource CoefficientFieldLabelStyle}" />
+                                                    <TextBox Text="{Binding BackPressureCorrectionKb, UpdateSourceTrigger=LostFocus}"
+                                                             IsEnabled="{Binding IsKbEditable}"
+                                                             Style="{DynamicResource CoefficientInputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_kb]}" />
+                                                    <CheckBox Content="{Binding Loc[use_custom_bellows_kb]}"
+                                                              IsChecked="{Binding UseCustomBellowsKb}"
+                                                              Visibility="{Binding ShowBellowsKbOverrideOption, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                              Style="{DynamicResource ToggleCheckBoxStyle}"
+                                                              Margin="0,8,0,0"
+                                                              ToolTip="{Binding Loc[hint_use_custom_bellows_kb]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Style="{DynamicResource CoefficientFieldCardStyle}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[kc]}" Style="{DynamicResource CoefficientFieldLabelStyle}" />
+                                                    <TextBox Text="{Binding CombinationCorrectionKc, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource CoefficientInputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_kc]}" />
+                                                </StackPanel>
+                                            </Border>
+                                        </WrapPanel>
+    
+                                        <Border Style="{DynamicResource InfoBannerCardStyle}"
+                                                Visibility="{Binding ShowPilotOperatedHint, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Loc[valve_pilot_hint]}"
+                                                           Foreground="{DynamicResource BrushTextMuted}"
+                                                           TextWrapping="Wrap" />
+                                                <DockPanel Margin="0,12,0,0">
+                                                    <Button Content="{Binding Loc[pilot_settings_button]}"
+                                                            Click="OpenPilotOperatedSettings_Click"
+                                                            Style="{DynamicResource ActionButtonStyle}"
+                                                            DockPanel.Dock="Right"
+                                                            MinWidth="132" />
+                                                    <StackPanel Margin="0,0,14,0">
+                                                        <TextBlock Text="{Binding Loc[pilot_settings_summary_title]}"
+                                                                   Foreground="{DynamicResource BrushPrimary}"
+                                                                   FontSize="13"
+                                                                   FontWeight="SemiBold" />
+                                                        <TextBlock Text="{Binding PilotSettingsSummary}"
+                                                                   Margin="0,6,0,0"
+                                                                   Foreground="{DynamicResource BrushTextMain}"
+                                                                   TextWrapping="Wrap" />
+                                                    </StackPanel>
+                                                </DockPanel>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+</UserControl>

@@ -1,0 +1,65 @@
+{
+  "profileId": "api520-521-asme-2026-04-01",
+  "name": "API 520/521 + ASME (frozen 2026-04-01)",
+  "effectiveDate": "2026-04-01",
+  "source": "API 520/521 + ASME (internal frozen profile for PSVCalc v2 preparation)",
+  "coefficients": [
+    {
+      "code": "KD_DEFAULT_GAS",
+      "value": 0.975,
+      "unit": "-",
+      "description": "Default discharge coefficient for gas service in current implementation baseline.",
+      "clause": "Preparation baseline"
+    },
+    {
+      "code": "KD_DEFAULT_STEAM",
+      "value": 0.975,
+      "unit": "-",
+      "description": "Default discharge coefficient for steam service in current implementation baseline.",
+      "clause": "Preparation baseline"
+    },
+    {
+      "code": "KB_DEFAULT",
+      "value": 1.0,
+      "unit": "-",
+      "description": "Default back pressure correction factor.",
+      "clause": "Preparation baseline"
+    },
+    {
+      "code": "KC_DEFAULT",
+      "value": 1.0,
+      "unit": "-",
+      "description": "Default combination correction factor.",
+      "clause": "Preparation baseline"
+    },
+    {
+      "code": "ATM_PRESSURE_PA",
+      "value": 101325.0,
+      "unit": "Pa",
+      "description": "Atmospheric pressure used for gauge to absolute conversion.",
+      "clause": "Preparation baseline"
+    },
+    {
+      "code": "R_UNIVERSAL",
+      "value": 8.314462618,
+      "unit": "J/(mol·K)",
+      "description": "Universal gas constant used by current implementation.",
+      "clause": "Preparation baseline"
+    },
+    {
+      "code": "STEAM_Z_MIN",
+      "value": 0.85,
+      "unit": "-",
+      "description": "Lower bound of simplified steam compressibility estimator.",
+      "clause": "Preparation baseline"
+    },
+    {
+      "code": "STEAM_Z_MAX",
+      "value": 1.03,
+      "unit": "-",
+      "description": "Upper bound of simplified steam compressibility estimator.",
+      "clause": "Preparation baseline"
+    }
+  ]
+}
+

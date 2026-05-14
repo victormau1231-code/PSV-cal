@@ -1,0 +1,68 @@
+<UserControl x:Class="PSVCalc.App.Features.History.HistoryPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <Border Style="{DynamicResource CardBorder}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <TextBlock Text="{Binding Loc[history]}" Style="{DynamicResource SectionTitleStyle}" />
+                <TextBlock Text="{Binding Loc[history_panel_hint]}"
+                           Style="{DynamicResource SectionHintStyle}"
+                           Margin="0,3,0,0" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Style="{DynamicResource GridCardStyle}">
+                <TabControl Background="{DynamicResource BrushGridCardBackground}"
+                            BorderThickness="0"
+                            MinHeight="220"
+                            Style="{DynamicResource LargeTabControlStyle}"
+                            ItemContainerStyle="{DynamicResource LargeTabItemStyle}">
+                    <TabItem Header="{Binding Loc[history]}">
+                        <DataGrid ItemsSource="{Binding HistoryRows}"
+                                  Style="{DynamicResource ModernDataGrid}"
+                                  AutoGenerateColumns="False"
+                                  MinHeight="190"
+                                  MaxHeight="320"
+                                  IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Time" Binding="{Binding Timestamp, StringFormat=yyyy-MM-dd HH:mm:ss}" Width="1.35*" />
+                                <DataGridTextColumn Header="Case" Binding="{Binding CaseName}" Width="*" />
+                                <DataGridTextColumn Header="Fluid" Binding="{Binding FluidType}" Width="95" />
+                                <DataGridTextColumn Header="Area(mm2)" Binding="{Binding RequiredAreaMm2, StringFormat=F2}" Width="110" />
+                                <DataGridTextColumn Header="{Binding DataContext.Loc[selection_result], RelativeSource={RelativeSource AncestorType=Window}}" Binding="{Binding SelectedOrifice}" Width="120" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+
+                    <TabItem Header="{Binding Loc[parameter_audit]}"
+                             Visibility="{Binding IsExpertView, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <DataGrid ItemsSource="{Binding ParameterRows}"
+                                  Style="{DynamicResource ModernDataGrid}"
+                                  AutoGenerateColumns="False"
+                                  MinHeight="190"
+                                  MaxHeight="320"
+                                  IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Parameter" Binding="{Binding Parameter}" Width="*" />
+                                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*" />
+                                <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="90" />
+                                <DataGridTextColumn Header="Source" Binding="{Binding Source}" Width="130" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+                </TabControl>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

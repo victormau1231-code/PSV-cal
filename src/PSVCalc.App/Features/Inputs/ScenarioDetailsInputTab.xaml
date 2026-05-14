@@ -1,0 +1,324 @@
+﻿<UserControl x:Class="PSVCalc.App.Features.Inputs.ScenarioDetailsInputTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d">
+                                    <StackPanel Margin="0,14,0,0">
+                                        <Border Style="{DynamicResource InfoBannerCardStyle}">
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Loc[scenario_specific_hint]}"
+                                                           Style="{DynamicResource SectionTitleStyle}" />
+                                                <TextBlock Text="{Binding Loc[scenario_specific_detail]}"
+                                                   Style="{DynamicResource FieldHintStyle}"
+                                                           Margin="0" />
+                                            </StackPanel>
+                                        </Border>
+    
+                                        <Grid Visibility="{Binding IsTubeRuptureScenario, Converter={StaticResource BoolToVisibilityConverter}}"
+                                              Margin="0,0,0,12">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="12" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="12" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="12" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+    
+                                            <Border Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Style="{DynamicResource MatrixFieldCardStyle}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[tube_inner_diameter]}" Style="{DynamicResource FieldLabelStyle}" />
+                                                    <TextBox Text="{Binding TubeInnerDiameterMm, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource InputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_tube_inner_diameter]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Grid.Row="0"
+                                                    Grid.Column="2"
+                                                    Style="{DynamicResource MatrixFieldCardStyle}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding HighSidePressureLabel}" Style="{DynamicResource FieldLabelStyle}" />
+                                                    <TextBox Text="{Binding HighSidePressure, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource InputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_high_side_pressure]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Grid.Row="0"
+                                                    Grid.Column="4"
+                                                    Style="{DynamicResource MatrixFieldCardStyle}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[high_side_temperature]}" Style="{DynamicResource FieldLabelStyle}" />
+                                                    <TextBox Text="{Binding HighSideTemperatureC, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource InputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_high_side_temperature]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Grid.Row="2"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="5"
+                                                    Style="{DynamicResource MatrixFieldCardStyle}"
+                                                    Visibility="{Binding ShowHgTTubeRuptureNormalFlowInput, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[tube_rupture_high_side_normal_flow]}" Style="{DynamicResource FieldLabelStyle}" />
+                                                    <TextBox Text="{Binding TubeRuptureHighSideNormalFlowKgPerHour, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource InputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_high_side_normal_flow]}" />
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+    
+                                        <StackPanel Visibility="{Binding ShowTubeRuptureHighSideTwoPhaseEquilibriumInputs, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                    Margin="0,0,0,12">
+                                            <Border Style="{DynamicResource InfoBannerCardStyle}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[high_side_two_phase_title]}" Style="{DynamicResource SectionTitleStyle}" />
+                                                    <TextBlock Text="{Binding Loc[high_side_two_phase_hint]}"
+                                                               Style="{DynamicResource FieldHintStyle}"
+                                                               Margin="0" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="12" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+    
+                                                <Border Grid.Column="0"
+                                                        Style="{DynamicResource MatrixFieldCardStyle}">
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Loc[high_side_two_phase_inlet_specific_volume]}" Style="{DynamicResource FieldLabelStyle}" />
+                                                        <TextBox Text="{Binding HighSideTwoPhaseInletSpecificVolumeM3PerKg, UpdateSourceTrigger=LostFocus}"
+                                                                 Style="{DynamicResource InputTextBoxStyle}" />
+                                                    </StackPanel>
+                                                </Border>
+    
+                                                <Border Grid.Column="2"
+                                                        Style="{DynamicResource MatrixFieldCardStyle}">
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Loc[high_side_two_phase_reference_specific_volume]}" Style="{DynamicResource FieldLabelStyle}" />
+                                                        <TextBox Text="{Binding HighSideTwoPhaseSpecificVolumeAtNinetyPercentPressureM3PerKg, UpdateSourceTrigger=LostFocus}"
+                                                                 Style="{DynamicResource InputTextBoxStyle}" />
+                                                    </StackPanel>
+                                                </Border>
+                                            </Grid>
+                                        </StackPanel>
+    
+                                        <StackPanel Visibility="{Binding ShowTubeRuptureHighSideTwoPhaseSubcooledInputs, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                    Margin="0,0,0,12">
+                                            <Border Style="{DynamicResource InfoBannerCardStyle}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[high_side_two_phase_title]}" Style="{DynamicResource SectionTitleStyle}" />
+                                                    <TextBlock Text="{Binding Loc[high_side_two_phase_hint]}"
+                                                               Style="{DynamicResource FieldHintStyle}"
+                                                               Margin="0" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="12" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="12" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+    
+                                                <Border Grid.Column="0"
+                                                        Style="{DynamicResource MatrixFieldCardStyle}">
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Loc[high_side_liquid_density]}" Style="{DynamicResource FieldLabelStyle}" />
+                                                        <TextBox Text="{Binding HighSideLiquidDensityKgPerM3, UpdateSourceTrigger=LostFocus}"
+                                                                 Style="{DynamicResource InputTextBoxStyle}"
+                                                                 ToolTip="{Binding Loc[hint_liquid_density]}" />
+                                                    </StackPanel>
+                                                </Border>
+    
+                                                <Border Grid.Column="2"
+                                                        Style="{DynamicResource MatrixFieldCardStyle}">
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Loc[high_side_two_phase_reference_density]}" Style="{DynamicResource FieldLabelStyle}" />
+                                                        <TextBox Text="{Binding HighSideTwoPhaseDensityAtNinetyPercentSaturationPressureKgPerM3, UpdateSourceTrigger=LostFocus}"
+                                                                 Style="{DynamicResource InputTextBoxStyle}" />
+                                                    </StackPanel>
+                                                </Border>
+    
+                                                <Border Grid.Column="4"
+                                                        Style="{DynamicResource MatrixFieldCardStyle}">
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding HighSideTwoPhaseSaturationPressureAbsoluteLabel}" Style="{DynamicResource FieldLabelStyle}" />
+                                                        <TextBox Text="{Binding HighSideTwoPhaseSaturationPressureAbsolute, UpdateSourceTrigger=LostFocus}"
+                                                                 Style="{DynamicResource InputTextBoxStyle}" />
+                                                    </StackPanel>
+                                                </Border>
+                                            </Grid>
+                                        </StackPanel>
+    
+                                        <Grid Visibility="{Binding IsFireScenario, Converter={StaticResource BoolToVisibilityConverter}}"
+                                              Margin="0,0,0,12">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="12" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="12" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="12" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+    
+                                            <Border Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="5"
+                                                    Style="{DynamicResource MatrixFieldCardStyle}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[fire_wetted_area]}" Style="{DynamicResource FieldLabelStyle}" />
+                                                    <DockPanel>
+                                                        <Button Content="{Binding Loc[wetted_area_calculator_button]}"
+                                                                Click="OpenWettedAreaCalculator_Click"
+                                                                Style="{DynamicResource ActionButtonStyle}"
+                                                                DockPanel.Dock="Right"
+                                                                Margin="10,0,0,0"
+                                                                MinWidth="120" />
+                                                        <TextBox Text="{Binding FireWettedAreaM2, UpdateSourceTrigger=LostFocus}"
+                                                                 Style="{DynamicResource InputTextBoxStyle}"
+                                                                 ToolTip="{Binding Loc[hint_fire_wetted_area]}" />
+                                                    </DockPanel>
+                                                    <TextBlock Text="{Binding Loc[wetted_area_quick_fill_hint]}"
+                                                               Style="{DynamicResource FieldHintStyle}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Grid.Row="2"
+                                                    Grid.Column="0"
+                                                    Style="{DynamicResource MatrixFieldCardStyle}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[fire_environment_factor]}" Style="{DynamicResource FieldLabelStyle}" />
+                                                    <TextBox Text="{Binding FireEnvironmentalFactorF, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource InputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_fire_environment_factor]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Grid.Row="2"
+                                                    Grid.Column="2"
+                                                    Style="{DynamicResource MatrixFieldCardStyle}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[fire_constant]}" Style="{DynamicResource FieldLabelStyle}" />
+                                                    <TextBox Text="{Binding FireConstantC, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource InputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_fire_constant]}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Grid.Row="2"
+                                                    Grid.Column="4"
+                                                    Style="{DynamicResource MatrixFieldCardStyle}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[fire_latent_heat]}" Style="{DynamicResource FieldLabelStyle}" />
+                                                    <TextBox Text="{Binding VaporizationLatentHeatKjPerKg, UpdateSourceTrigger=LostFocus}"
+                                                             Style="{DynamicResource InputTextBoxStyle}"
+                                                             ToolTip="{Binding Loc[hint_fire_latent_heat]}" />
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+    
+                                        <Grid Visibility="{Binding IsThermalExpansionScenario, Converter={StaticResource BoolToVisibilityConverter}}"
+                                              Margin="0,0,0,12">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="12" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+    
+                                            <Border Grid.Row="0"
+                                                    Style="{DynamicResource MatrixFieldCardStyle}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[relief_load]}" Style="{DynamicResource FieldLabelStyle}" />
+                                                    <DockPanel>
+                                                        <Button Content="{Binding Loc[thermal_expansion_calculator_button]}"
+                                                                Click="OpenThermalExpansionCalculator_Click"
+                                                                Style="{DynamicResource ActionButtonStyle}"
+                                                                DockPanel.Dock="Right"
+                                                                Margin="10,0,0,0"
+                                                                MinWidth="138" />
+                                                        <TextBox Text="{Binding ReliefLoadKgPerHour, UpdateSourceTrigger=LostFocus}"
+                                                                 Style="{DynamicResource InputTextBoxStyle}"
+                                                                 ToolTip="{Binding Loc[hint_relief_load]}" />
+                                                    </DockPanel>
+                                                    <TextBlock Text="{Binding ThermalExpansionSummary}"
+                                                               Style="{DynamicResource FieldHintStyle}"
+                                                               Visibility="{Binding HasThermalExpansionInputs, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Grid.Row="2"
+                                                    Style="{DynamicResource InfoBannerCardStyle}"
+                                                    Visibility="{Binding ShowThermalExpansionApiExplanation, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[thermal_expansion_note_title]}"
+                                                               Style="{DynamicResource SectionTitleStyle}" />
+                                                    <TextBlock Text="{Binding Loc[thermal_expansion_api_explanation]}"
+                                                               Foreground="{DynamicResource BrushTextMuted}"
+                                                               TextWrapping="Wrap"
+                                                               FontSize="13"
+                                                               Margin="0" />
+                                                </StackPanel>
+                                            </Border>
+    
+                                            <Border Grid.Row="2"
+                                                    Style="{DynamicResource InfoBannerCardStyle}"
+                                                    Visibility="{Binding ShowThermalExpansionHgTExplanation, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[thermal_expansion_note_title]}"
+                                                               Style="{DynamicResource SectionTitleStyle}" />
+                                                    <TextBlock Text="{Binding Loc[thermal_expansion_hgt_explanation]}"
+                                                               Foreground="{DynamicResource BrushTextMuted}"
+                                                               TextWrapping="Wrap"
+                                                               FontSize="13"
+                                                               Margin="0" />
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+    
+                                        <Border Style="{DynamicResource InfoBannerCardStyle}"
+                                                Visibility="{Binding ShowTubeRuptureApiExplanation, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Loc[tube_rupture_note_title]}"
+                                                           Style="{DynamicResource SectionTitleStyle}" />
+                                                <TextBlock Text="{Binding Loc[tube_rupture_api_explanation]}"
+                                                           Foreground="{DynamicResource BrushTextMuted}"
+                                                           TextWrapping="Wrap"
+                                                           FontSize="13"
+                                                           Margin="0" />
+                                            </StackPanel>
+                                        </Border>
+    
+                                        <Border Style="{DynamicResource InfoBannerCardStyle}"
+                                                Visibility="{Binding ShowTubeRuptureHgTExplanation, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Loc[tube_rupture_note_title]}"
+                                                           Style="{DynamicResource SectionTitleStyle}" />
+                                                <TextBlock Text="{Binding Loc[tube_rupture_hgt_explanation]}"
+                                                           Foreground="{DynamicResource BrushTextMuted}"
+                                                           TextWrapping="Wrap"
+                                                           FontSize="13"
+                                                           Margin="0" />
+                                            </StackPanel>
+                                        </Border>
+    
+                                    </StackPanel>
+</UserControl>

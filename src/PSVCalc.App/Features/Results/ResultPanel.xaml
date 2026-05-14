@@ -1,0 +1,315 @@
+<UserControl x:Class="PSVCalc.App.Features.Results.ResultPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <Border Style="{DynamicResource CardBorder}">
+        <StackPanel>
+            <TextBlock Text="{Binding Loc[results]}" Style="{DynamicResource SectionTitleStyle}" />
+            <TextBlock Text="{Binding Loc[output_panel_hint]}"
+                       Style="{DynamicResource SectionHintStyle}"
+                       Margin="0,4,0,10" />
+
+            <TabControl Style="{DynamicResource LargeTabControlStyle}"
+                        ItemContainerStyle="{DynamicResource LargeTabItemStyle}">
+                <TabItem Header="{Binding Loc[output_tab_summary]}">
+                    <StackPanel Margin="0,14,0,0">
+                        <Border Style="{DynamicResource ReportSheetStyle}">
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Loc[report_sheet_title]}"
+                                                   Style="{DynamicResource SectionTitleStyle}" />
+                                        <TextBlock Text="{Binding Loc[report_sheet_hint]}"
+                                                   Style="{DynamicResource SectionHintStyle}"
+                                                   Margin="0,6,0,0" />
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1"
+                                                Orientation="Horizontal"
+                                                HorizontalAlignment="Right">
+                                        <Border Style="{DynamicResource ReportPillStyle}">
+                                            <TextBlock Text="{Binding CurrentFluidLabel}"
+                                                       Foreground="{DynamicResource BrushReportPillText}"
+                                                       FontSize="13"
+                                                       FontWeight="SemiBold" />
+                                        </Border>
+                                        <Border Style="{DynamicResource ReportPillStyle}">
+                                            <TextBlock Text="{Binding CurrentScenarioLabel}"
+                                                       Foreground="{DynamicResource BrushReportPillText}"
+                                                       FontSize="13"
+                                                       FontWeight="SemiBold" />
+                                        </Border>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid Margin="0,18,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Grid.Column="0"
+                                            Style="{DynamicResource SummaryHeroCardStyle}"
+                                            Margin="0,0,14,0">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Loc[report_section_conclusion]}"
+                                                       Style="{DynamicResource ReportSectionTitleStyle}" />
+                                            <TextBlock Text="{Binding RequiredAreaMm2, StringFormat={}{0:F4} mm2}"
+                                                       Style="{DynamicResource ReportHeroValueStyle}"
+                                                       Margin="0,10,0,0" />
+                                            <UniformGrid Columns="2"
+                                                         Margin="0,18,0,0">
+                                                <Border Style="{DynamicResource ReportMetricChipStyle}">
+                                                    <StackPanel>
+                                                        <TextBlock Text="cm2" Style="{DynamicResource ReportDataLabelStyle}" />
+                                                        <TextBlock Text="{Binding RequiredAreaCm2, StringFormat={}{0:F4}}"
+                                                                   Style="{DynamicResource ReportMinorValueStyle}" />
+                                                    </StackPanel>
+                                                </Border>
+                                                <Border Style="{DynamicResource ReportMetricChipStyle}"
+                                                        Margin="0">
+                                                    <StackPanel>
+                                                        <TextBlock Text="in2" Style="{DynamicResource ReportDataLabelStyle}" />
+                                                        <TextBlock Text="{Binding RequiredAreaIn2, StringFormat={}{0:F4}}"
+                                                                   Style="{DynamicResource ReportMinorValueStyle}" />
+                                                    </StackPanel>
+                                                </Border>
+                                            </UniformGrid>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Grid.Column="1"
+                                            Style="{DynamicResource ReportSelectionCardStyle}">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding CurrentSelectionCardTitle}"
+                                                       Style="{DynamicResource ReportDarkLabelStyle}" />
+                                            <TextBlock Text="{Binding CurrentSelectionCardValue}"
+                                                       Style="{DynamicResource ReportSelectionValueStyle}"
+                                                       Margin="0,10,0,0" />
+                                            <Separator Margin="0,16,0,14"
+                                                       Background="{DynamicResource BrushAccentPanelDivider}" />
+                                            <TextBlock Text="{Binding CurrentSelectionSecondaryLabel}"
+                                                       Style="{DynamicResource ReportDarkLabelStyle}" />
+                                            <TextBlock Text="{Binding CurrentSelectionSecondaryValue}"
+                                                       Style="{DynamicResource ReportDarkValueStyle}"
+                                                       Margin="0,6,0,0" />
+                                            <TextBlock Text="{Binding CurrentSelectionQuaternaryLabel}"
+                                                       Style="{DynamicResource ReportDarkLabelStyle}"
+                                                       Margin="0,14,0,0"
+                                                       Visibility="{Binding ShowApiSelectionArtifacts, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                            <TextBlock Text="{Binding CurrentSelectionQuaternaryValue}"
+                                                       Style="{DynamicResource ReportDarkValueStyle}"
+                                                       Margin="0,6,0,0"
+                                                       Opacity="0.96"
+                                                       Visibility="{Binding ShowApiSelectionArtifacts, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                            <TextBlock Text="{Binding CurrentSelectionTertiaryLabel}"
+                                                       Style="{DynamicResource ReportDarkLabelStyle}"
+                                                       Margin="0,14,0,0" />
+                                            <TextBlock Text="{Binding CurrentSelectionTertiaryValue}"
+                                                       Style="{DynamicResource ReportDarkValueStyle}"
+                                                       Margin="0,6,0,0"
+                                                       Opacity="0.96" />
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+
+                                <Grid Margin="0,16,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Grid.Column="0"
+                                            Style="{DynamicResource SummaryInfoCardStyle}">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Loc[report_section_context]}"
+                                                       Style="{DynamicResource ReportSectionTitleStyle}" />
+                                            <UniformGrid Columns="2"
+                                                         Margin="0,12,0,0">
+                                                <StackPanel Margin="0,0,12,12">
+                                                    <TextBlock Text="{Binding Loc[case_name]}" Style="{DynamicResource ReportDataLabelStyle}" />
+                                                    <TextBlock Text="{Binding CaseName}" Style="{DynamicResource ReportDataValueStyle}" />
+                                                </StackPanel>
+                                                <StackPanel Margin="0,0,0,12">
+                                                    <TextBlock Text="{Binding Loc[view_mode]}" Style="{DynamicResource ReportDataLabelStyle}" />
+                                                    <TextBlock Text="{Binding CurrentViewModeLabel}" Style="{DynamicResource ReportDataValueStyle}" />
+                                                </StackPanel>
+                                                <StackPanel Margin="0,0,12,0">
+                                                    <TextBlock Text="{Binding Loc[pressure_mode]}" Style="{DynamicResource ReportDataLabelStyle}" />
+                                                    <TextBlock Text="{Binding CurrentPressureModeLabel}" Style="{DynamicResource ReportDataValueStyle}" />
+                                                </StackPanel>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[use_operating_pressure_basis]}" Style="{DynamicResource ReportDataLabelStyle}" />
+                                                    <TextBlock Text="{Binding CurrentPressureBasisLabel}" Style="{DynamicResource ReportDataValueStyle}" />
+                                                </StackPanel>
+                                                <StackPanel Margin="0,12,12,0">
+                                                    <TextBlock Text="{Binding Loc[valve_configuration]}" Style="{DynamicResource ReportDataLabelStyle}" />
+                                                    <TextBlock Text="{Binding CurrentValveConfigurationLabel}" Style="{DynamicResource ReportDataValueStyle}" />
+                                                </StackPanel>
+                                            </UniformGrid>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Grid.Column="1"
+                                            Style="{DynamicResource SummaryInfoCardStyle}"
+                                            Margin="2,0,0,0">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Loc[report_section_flow]}"
+                                                       Style="{DynamicResource ReportSectionTitleStyle}" />
+                                            <UniformGrid Columns="1"
+                                                         Margin="0,12,0,0">
+                                                <StackPanel Margin="0,0,0,12">
+                                                    <TextBlock Text="{Binding Loc[flow_branch]}" Style="{DynamicResource ReportDataLabelStyle}" />
+                                                    <TextBlock Text="{Binding FlowBranch}" Style="{DynamicResource ReportDataValueStyle}" />
+                                                </StackPanel>
+                                                <StackPanel Margin="0,0,0,12">
+                                                    <TextBlock Text="{Binding Loc[standard_version]}" Style="{DynamicResource ReportDataLabelStyle}" />
+                                                    <TextBlock Text="{Binding CurrentStandardLabel}" Style="{DynamicResource ReportDataValueStyle}" />
+                                                </StackPanel>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Loc[pressure_unit]}" Style="{DynamicResource ReportDataLabelStyle}" />
+                                                    <TextBlock Text="{Binding PressureUnit}" Style="{DynamicResource ReportDataValueStyle}" />
+                                                </StackPanel>
+                                            </UniformGrid>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="{Binding Loc[output_tab_details]}">
+                    <StackPanel Margin="0,14,0,0">
+                        <Border Style="{DynamicResource ReportSectionCardStyle}"
+                                Margin="0,0,0,12"
+                                Visibility="{Binding ShowApiCandidateArtifacts, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Loc[report_section_candidates]}" Style="{DynamicResource ReportSectionTitleStyle}" />
+                                <TextBlock Text="{Binding CandidateOrifices}"
+                                           Style="{DynamicResource ReportDataValueStyle}"
+                                           Margin="0,12,0,0" />
+                            </StackPanel>
+                        </Border>
+
+                        <UniformGrid Columns="2">
+                            <Border Style="{DynamicResource ReportSectionCardStyle}" Margin="0,0,12,0">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Loc[required_area]}" Style="{DynamicResource ReportSectionTitleStyle}" />
+                                    <TextBlock Text="{Binding RequiredAreaMm2, StringFormat={}{0:F3} mm2}"
+                                               Style="{DynamicResource ReportDataValueStyle}"
+                                               Margin="0,12,0,0" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border Style="{DynamicResource ReportSectionCardStyle}" Margin="0">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding CurrentDetailSelectionLabel}" Style="{DynamicResource ReportSectionTitleStyle}" />
+                                    <TextBlock Text="{Binding CurrentDetailSelectionValue}" Style="{DynamicResource ReportDataValueStyle}" Margin="0,12,0,0" />
+                                </StackPanel>
+                            </Border>
+                        </UniformGrid>
+
+                        <Border Style="{DynamicResource PressureChainContainerStyle}" Margin="0,12,0,0">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Loc[report_section_pressure_chain]}" Style="{DynamicResource ReportSectionTitleStyle}" />
+                                <Grid Margin="0,14,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Grid.Column="0" Style="{DynamicResource PressureChainStepCardStyle}">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding CurrentPrimaryPressureLabel}" Style="{DynamicResource ReportSectionTitleStyle}" />
+                                            <TextBlock Text="{Binding CurrentPrimaryPressureResultValue}" Style="{DynamicResource ReportDataValueStyle}" Margin="0,12,0,0" />
+                                            <TextBlock Text="{Binding CurrentPrimaryPressureHint}" Style="{DynamicResource ReportDataHintStyle}" />
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Grid.Column="1" Style="{DynamicResource PressureChainArrowPillStyle}" Margin="10,0">
+                                        <TextBlock Text="→" Style="{DynamicResource PressureChainArrowTextStyle}" />
+                                    </Border>
+
+                                    <Border Grid.Column="2" Style="{DynamicResource PressureChainStepCardStyle}">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding CurrentRelievingPressureLabel}" Style="{DynamicResource ReportSectionTitleStyle}" />
+                                            <TextBlock Text="{Binding ResultRelievingPressure}" Style="{DynamicResource ReportDataValueStyle}" Margin="0,12,0,0" />
+                                            <TextBlock Text="{Binding CurrentRelievingPressureHint}" Style="{DynamicResource ReportDataHintStyle}" />
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Grid.Column="3" Style="{DynamicResource PressureChainArrowPillStyle}" Margin="10,0">
+                                        <TextBlock Text="→" Style="{DynamicResource PressureChainArrowTextStyle}" />
+                                    </Border>
+
+                                    <Border Grid.Column="4" Style="{DynamicResource PressureChainStepCardStyle}">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding CurrentReseatPressureLabel}" Style="{DynamicResource ReportSectionTitleStyle}" />
+                                            <TextBlock Text="{Binding ResultReseatPressure}" Style="{DynamicResource ReportDataValueStyle}" Margin="0,12,0,0" />
+                                            <TextBlock Text="{Binding CurrentReseatPressureHint}" Style="{DynamicResource ReportDataHintStyle}" />
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <UniformGrid Columns="2"
+                                     Margin="0,12,0,0"
+                                     Visibility="{Binding ShowApiSelectionArtifacts, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Border Style="{DynamicResource ReportSectionCardStyle}" Margin="0,0,12,0">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Loc[size_shorthand]}" Style="{DynamicResource ReportSectionTitleStyle}" />
+                                    <TextBlock Text="{Binding SizeShorthand}" Style="{DynamicResource ReportDataValueStyle}" Margin="0,12,0,0" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border Style="{DynamicResource ReportSectionCardStyle}" Margin="0">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Loc[inlet_outlet_size]}" Style="{DynamicResource ReportSectionTitleStyle}" />
+                                    <TextBlock Text="{Binding InletOutletSize}" Style="{DynamicResource ReportDataValueStyle}" Margin="0,12,0,0" />
+                                </StackPanel>
+                            </Border>
+                        </UniformGrid>
+                    </StackPanel>
+                </TabItem>
+
+                <TabItem Header="{Binding Loc[output_tab_warnings]}">
+                    <Border Margin="0,14,0,0"
+                            Background="{DynamicResource BrushWarningBackground}"
+                            BorderBrush="{DynamicResource BrushWarningBorder}"
+                            BorderThickness="1"
+                            CornerRadius="{DynamicResource ThemeCornerRadiusCard}"
+                            Padding="16">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Loc[report_section_warnings]}"
+                                       Style="{DynamicResource ReportSectionTitleStyle}" />
+                            <TextBox Text="{Binding WarningText}"
+                                     Margin="0,12,0,0"
+                                     Height="170"
+                                     IsReadOnly="True"
+                                     TextWrapping="Wrap"
+                                     VerticalScrollBarVisibility="Auto"
+                                     BorderThickness="0"
+                                     Background="{DynamicResource BrushWarningBackground}"
+                                     Foreground="{DynamicResource BrushWarningText}" />
+                        </StackPanel>
+                    </Border>
+                </TabItem>
+            </TabControl>
+        </StackPanel>
+    </Border>
+</UserControl>
