@@ -8,7 +8,7 @@
         xmlns:results="clr-namespace:PSVCalc.App.Features.Results"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="{Binding Loc[app_title], FallbackValue=PSV Calculator Pro V 1.3.1, TargetNullValue=PSV Calculator Pro V 1.3.1}"
+        Title="{Binding Loc[app_title], FallbackValue=PSV Calculator Pro V 1.3.2, TargetNullValue=PSV Calculator Pro V 1.3.2}"
         Height="980"
         Width="1540"
         MinHeight="860"

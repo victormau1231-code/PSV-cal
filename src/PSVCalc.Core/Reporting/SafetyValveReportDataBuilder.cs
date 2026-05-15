@@ -88,6 +88,14 @@ public sealed class SafetyValveReportDataBuilder
                 [new ReportRow(dict["capacity_used_percent"], F(result.OrificeRecommendation.SelectedUtilizationPercent))]));
         }
 
+        cards.Add(new ReportCard(
+            dict["trim_material_recommendation"],
+            result.TrimMaterialRecommendation.ServiceBasis,
+            [
+                new ReportRow(dict["seat_material"], result.TrimMaterialRecommendation.SeatMaterial),
+                new ReportRow(dict["disc_material"], result.TrimMaterialRecommendation.DiscMaterial)
+            ]));
+
         return cards;
     }
 
@@ -258,6 +266,12 @@ public sealed class SafetyValveReportDataBuilder
                 string.Join(", ", result.OrificeRecommendation.CandidateNeighbors.Select(x => $"{x.Letter} ({F(x.AreaMm2)} mm2)"))));
         }
 
+        rows.Add(new ReportRow(dict["material_service_condition"], LocalizeMaterialService(input.MaterialServiceCondition, dict)));
+        rows.Add(new ReportRow(dict["seat_material"], result.TrimMaterialRecommendation.SeatMaterial));
+        rows.Add(new ReportRow(dict["disc_material"], result.TrimMaterialRecommendation.DiscMaterial));
+        rows.Add(new ReportRow(dict["material_basis"], result.TrimMaterialRecommendation.Basis));
+        rows.Add(new ReportRow(dict["material_review_notes"], string.Join(" | ", result.TrimMaterialRecommendation.ReviewNotes)));
+
         return rows;
     }
 
@@ -360,6 +374,18 @@ public sealed class SafetyValveReportDataBuilder
             ReliefScenario.TubeRupture => dict["scenario_tube_rupture"],
             ReliefScenario.ThermalExpansion => dict["scenario_thermal_expansion"],
             _ => scenario.ToString()
+        };
+    }
+
+    private static string LocalizeMaterialService(MaterialServiceCondition condition, IReadOnlyDictionary<string, string> dict)
+    {
+        return condition switch
+        {
+            MaterialServiceCondition.SteamHighTemperature => dict["material_service_steam_high_temp"],
+            MaterialServiceCondition.DirtyAbrasiveTwoPhase => dict["material_service_dirty_abrasive_two_phase"],
+            MaterialServiceCondition.SourNace => dict["material_service_sour_nace"],
+            MaterialServiceCondition.ChlorideSeaWater => dict["material_service_chloride_seawater"],
+            _ => dict["material_service_clean"]
         };
     }
 

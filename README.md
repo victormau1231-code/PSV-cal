@@ -1,4 +1,4 @@
-# PSV Calculator Pro V 1.3.1
+﻿# PSV Calculator Pro V 1.3.2
 
 Chemical pressure safety valve sizing software built with `.NET 8 + WPF`.
 
@@ -23,6 +23,9 @@ Chemical pressure safety valve sizing software built with `.NET 8 + WPF`.
   - HG/T 20570.2 clause `7.0.8` liquid-service relief-load path
 - Thermal expansion:
   - popup helper for blocked-in liquid thermal expansion load estimation
+- Trim material recommendation:
+  - API-context seat/disc material review guidance by service condition
+  - clean, steam/high-temperature, dirty/abrasive/two-phase, sour/NACE, and chloride/seawater presets
 - Standard-aware result presentation:
   - `API`: area + orifice letter + shorthand + inlet/outlet size
   - `HG/T`: area + direct throat diameter
@@ -77,10 +80,10 @@ powershell -ExecutionPolicy Bypass -File .\scripts\Publish-Portable.ps1
 
 Outputs:
 
-- `publish\portable-selfcontained\PSV-Calculator-Pro-V1.3.1-portable-win-x64-singlefile`
-- `publish\portable-selfcontained\PSV-Calculator-Pro-V1.3.1-portable-win-x64-multifile`
-- `publish\portable-selfcontained\archives\PSV-Calculator-Pro-V1.3.1-portable-win-x64-singlefile.zip`
-- `publish\portable-selfcontained\archives\PSV-Calculator-Pro-V1.3.1-portable-win-x64-multifile.zip`
+- `publish\portable-selfcontained\PSV-Calculator-Pro-V1.3.2-portable-win-x64-singlefile`
+- `publish\portable-selfcontained\PSV-Calculator-Pro-V1.3.2-portable-win-x64-multifile`
+- `publish\portable-selfcontained\archives\PSV-Calculator-Pro-V1.3.2-portable-win-x64-singlefile.zip`
+- `publish\portable-selfcontained\archives\PSV-Calculator-Pro-V1.3.2-portable-win-x64-multifile.zip`
 - each package includes `Release-Notes.txt` and `CHANGELOG.md`
 
 Notes:

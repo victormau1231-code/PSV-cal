@@ -28,12 +28,29 @@ public sealed class ReportDataBuilderTests
         Assert.DoesNotContain(document.ResultRows, row => row.Label == "Recommended Orifice");
     }
 
-    private static ProjectRecord BuildRecord(CalculationStandardBasis standardBasis)
+    [Fact]
+    public void Build_ShouldExposeTrimMaterialRecommendation()
+    {
+        var builder = new SafetyValveReportDataBuilder();
+        SafetyValveReportDocument document = builder.Build(
+            BuildRecord(CalculationStandardBasis.Api520521Asme, MaterialServiceCondition.SourNace),
+            UiLanguage.EnUs);
+
+        Assert.Contains(document.SummaryCards, card => card.Title == "Trim Material Recommendation");
+        Assert.Contains(document.ResultRows, row => row.Label == "Seat Material" && row.Value.Contains("NACE", StringComparison.OrdinalIgnoreCase));
+        Assert.Contains(document.ResultRows, row => row.Label == "Disc Material" && row.Value.Contains("NACE", StringComparison.OrdinalIgnoreCase));
+        Assert.Contains(document.Warnings, warning => warning.Contains("H2S", StringComparison.OrdinalIgnoreCase));
+    }
+
+    private static ProjectRecord BuildRecord(
+        CalculationStandardBasis standardBasis,
+        MaterialServiceCondition materialServiceCondition = MaterialServiceCondition.CleanNonCorrosive)
     {
         var input = new CalculationInput
         {
             CaseName = "ReportBuilderCase",
             StandardBasis = standardBasis,
+            MaterialServiceCondition = materialServiceCondition,
             FluidType = FluidType.Gas,
             PressureInputMode = PressureInputMode.Absolute,
             PressureUnit = PressureUnit.MPa,

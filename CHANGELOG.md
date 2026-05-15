@@ -4,6 +4,18 @@ All notable changes to `PSV Calculator Pro` are documented in this file.
 
 The format is inspired by `Keep a Changelog`, adapted for this desktop engineering tool.
 
+## [1.3.2] - 2026-05-15
+
+### Added
+
+- API-context valve trim material recommendation for seat and disc selection review.
+- Material service-condition selector covering clean, steam/high-temperature, dirty/abrasive/two-phase, sour/NACE, and chloride/seawater service.
+- Trim recommendation output in the result sheet, expert rows, JSON project snapshot, and exported report data.
+
+### Changed
+
+- App title, assembly metadata, and startup titles promoted to `PSV Calculator Pro V 1.3.2`.
+
 ## [1.3.1] - 2026-04-09
 
 ### Added

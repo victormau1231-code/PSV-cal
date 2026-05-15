@@ -35,6 +35,7 @@ public partial class MainViewModel : ObservableObject
         nameof(CaseName),
         nameof(StandardBasis),
         nameof(FluidType),
+        nameof(MaterialServiceCondition),
         nameof(PressureInputMode),
         nameof(PressureUnit),
         nameof(AtmosphericPressure),
@@ -123,6 +124,7 @@ public partial class MainViewModel : ObservableObject
     public ObservableCollection<SelectionItem<PressureUnit>> PressureUnitOptions { get; } = [];
     public ObservableCollection<SelectionItem<ValveConfiguration>> ValveConfigurationOptions { get; } = [];
     public ObservableCollection<SelectionItem<ReliefScenario>> ScenarioOptions { get; } = [];
+    public ObservableCollection<SelectionItem<MaterialServiceCondition>> MaterialServiceOptions { get; } = [];
     public ObservableCollection<GasPresetOption> GasPresetOptions { get; } = [];
 
     public ObservableCollection<DisplayRow> ExpertRows { get; } = [];
@@ -132,6 +134,7 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private string caseName = "Case-001";
     [ObservableProperty] private CalculationStandardBasis standardBasis = CalculationStandardBasis.Api520521Asme;
     [ObservableProperty] private FluidType fluidType = FluidType.Gas;
+    [ObservableProperty] private MaterialServiceCondition materialServiceCondition = MaterialServiceCondition.CleanNonCorrosive;
     [ObservableProperty] private UiLanguage language = UiLanguage.ZhCn;
     [ObservableProperty] private ResultViewMode resultViewMode = ResultViewMode.Summary;
     [ObservableProperty] private PressureInputMode pressureInputMode = PressureInputMode.Gauge;
@@ -194,6 +197,11 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private string inletOutletSize = "-";
     [ObservableProperty] private string sizeShorthand = "-";
     [ObservableProperty] private string capacityUsedPercentDisplay = "-";
+    [ObservableProperty] private string recommendedSeatMaterial = "-";
+    [ObservableProperty] private string recommendedDiscMaterial = "-";
+    [ObservableProperty] private string materialServiceBasis = "-";
+    [ObservableProperty] private string materialRecommendationBasis = "-";
+    [ObservableProperty] private string materialReviewNotes = "-";
     [ObservableProperty] private string flowBranch = "-";
     [ObservableProperty] private string warningText = "-";
     [ObservableProperty] private string candidateOrifices = "-";
@@ -375,6 +383,14 @@ public partial class MainViewModel : ObservableObject
         ValveConfiguration.PilotOperated => Loc["valve_pilot_operated"],
         _ => Loc["valve_conventional_spring"]
     };
+    public string CurrentMaterialServiceLabel => MaterialServiceCondition switch
+    {
+        MaterialServiceCondition.SteamHighTemperature => Loc["material_service_steam_high_temp"],
+        MaterialServiceCondition.DirtyAbrasiveTwoPhase => Loc["material_service_dirty_abrasive_two_phase"],
+        MaterialServiceCondition.SourNace => Loc["material_service_sour_nace"],
+        MaterialServiceCondition.ChlorideSeaWater => Loc["material_service_chloride_seawater"],
+        _ => Loc["material_service_clean"]
+    };
 
     public string CurrentStandardRecordLabel => CalculationStandardCatalog.GetDisplayName(StandardBasis);
     public string CalculationPromptText => IsCalculationStale
@@ -486,6 +502,11 @@ public partial class MainViewModel : ObservableObject
     partial void OnStandardBasisChanged(CalculationStandardBasis value)
     {
         RaiseComputedFlags();
+    }
+
+    partial void OnMaterialServiceConditionChanged(MaterialServiceCondition value)
+    {
+        OnPropertyChanged(nameof(CurrentMaterialServiceLabel));
     }
 
     partial void OnResultSetPressureChanged(string value)
@@ -779,6 +800,7 @@ public partial class MainViewModel : ObservableObject
         CaseName = "Case-001";
         StandardBasis = CalculationStandardBasis.Api520521Asme;
         FluidType = FluidType.Gas;
+        MaterialServiceCondition = MaterialServiceCondition.CleanNonCorrosive;
         ReliefScenario = ReliefScenario.Overpressure;
         ValveConfiguration = ValveConfiguration.ConventionalSpring;
         UseOperatingPressureBasis = false;
@@ -833,6 +855,11 @@ public partial class MainViewModel : ObservableObject
         InletOutletSize = "-";
         SizeShorthand = "-";
         CapacityUsedPercentDisplay = "-";
+        RecommendedSeatMaterial = "-";
+        RecommendedDiscMaterial = "-";
+        MaterialServiceBasis = "-";
+        MaterialRecommendationBasis = "-";
+        MaterialReviewNotes = "-";
         FlowBranch = "-";
         WarningText = "-";
         CandidateOrifices = "-";
@@ -892,6 +919,13 @@ public partial class MainViewModel : ObservableObject
         PressureUnitOptions.Add(new SelectionItem<PressureUnit> { Value = PressureUnit.MPa, Label = "MPa" });
         PressureUnitOptions.Add(new SelectionItem<PressureUnit> { Value = PressureUnit.kPa, Label = "kPa" });
         PressureUnitOptions.Add(new SelectionItem<PressureUnit> { Value = PressureUnit.bar, Label = "bar" });
+
+        MaterialServiceOptions.Clear();
+        MaterialServiceOptions.Add(new SelectionItem<MaterialServiceCondition> { Value = MaterialServiceCondition.CleanNonCorrosive, Label = Loc["material_service_clean"] });
+        MaterialServiceOptions.Add(new SelectionItem<MaterialServiceCondition> { Value = MaterialServiceCondition.SteamHighTemperature, Label = Loc["material_service_steam_high_temp"] });
+        MaterialServiceOptions.Add(new SelectionItem<MaterialServiceCondition> { Value = MaterialServiceCondition.DirtyAbrasiveTwoPhase, Label = Loc["material_service_dirty_abrasive_two_phase"] });
+        MaterialServiceOptions.Add(new SelectionItem<MaterialServiceCondition> { Value = MaterialServiceCondition.SourNace, Label = Loc["material_service_sour_nace"] });
+        MaterialServiceOptions.Add(new SelectionItem<MaterialServiceCondition> { Value = MaterialServiceCondition.ChlorideSeaWater, Label = Loc["material_service_chloride_seawater"] });
 
         ValveConfigurationOptions.Clear();
         ValveConfigurationOptions.Add(new SelectionItem<ValveConfiguration>
@@ -967,6 +1001,7 @@ public partial class MainViewModel : ObservableObject
             CaseName = string.IsNullOrWhiteSpace(CaseName) ? "New Case" : CaseName.Trim(),
             StandardBasis = StandardBasis,
             FluidType = FluidType,
+            MaterialServiceCondition = MaterialServiceCondition,
             ReliefScenario = ReliefScenario,
             ValveConfiguration = ValveConfiguration,
             UseOperatingPressureBasis = UseOperatingPressureBasis,
@@ -1064,6 +1099,7 @@ public partial class MainViewModel : ObservableObject
 
         StandardBasis = record.Input.StandardBasis;
         FluidType = record.Input.FluidType;
+        MaterialServiceCondition = record.Input.MaterialServiceCondition;
         ReliefScenario = record.Input.ReliefScenario;
         ValveConfiguration = record.Input.ValveConfiguration;
         UseOperatingPressureBasis = record.Input.UseOperatingPressureBasis;
@@ -1137,6 +1173,11 @@ public partial class MainViewModel : ObservableObject
             InletOutletSize = "-";
             SizeShorthand = "-";
             CapacityUsedPercentDisplay = "-";
+            RecommendedSeatMaterial = "-";
+            RecommendedDiscMaterial = "-";
+            MaterialServiceBasis = "-";
+            MaterialRecommendationBasis = "-";
+            MaterialReviewNotes = "-";
             FlowBranch = "-";
             WarningText = "-";
             CandidateOrifices = "-";
@@ -1166,6 +1207,11 @@ public partial class MainViewModel : ObservableObject
         CapacityUsedPercentDisplay = IsHgTStandard
             ? "-"
             : result.OrificeRecommendation.SelectedUtilizationPercent.ToString("F2", CultureInfo.CurrentCulture);
+        RecommendedSeatMaterial = result.TrimMaterialRecommendation.SeatMaterial;
+        RecommendedDiscMaterial = result.TrimMaterialRecommendation.DiscMaterial;
+        MaterialServiceBasis = result.TrimMaterialRecommendation.ServiceBasis;
+        MaterialRecommendationBasis = result.TrimMaterialRecommendation.Basis;
+        MaterialReviewNotes = string.Join(Environment.NewLine, result.TrimMaterialRecommendation.ReviewNotes);
         FlowBranch = result.Intermediate.EquationBranch;
         WarningText = result.Warnings.Count == 0 ? Loc["none"] : string.Join(Environment.NewLine, result.Warnings);
         CandidateOrifices = IsHgTStandard
@@ -1244,6 +1290,9 @@ public partial class MainViewModel : ObservableObject
         {
             AddExpert("Capacity Used [%]", result.OrificeRecommendation.SelectedUtilizationPercent, "%");
         }
+        AddExpert("Trim material service basis", MaterialServiceBasis, "-");
+        AddExpert("Seat material recommendation", RecommendedSeatMaterial, "-");
+        AddExpert("Disc material recommendation", RecommendedDiscMaterial, "-");
 
         ParameterRows.Clear();
         foreach (ParameterAudit audit in result.ParameterAudits)
@@ -1273,6 +1322,16 @@ public partial class MainViewModel : ObservableObject
         {
             Parameter = name,
             Value = value.ToString("G10", CultureInfo.InvariantCulture),
+            Unit = unit
+        });
+    }
+
+    private void AddExpert(string name, string value, string unit)
+    {
+        ExpertRows.Add(new DisplayRow
+        {
+            Parameter = name,
+            Value = value,
             Unit = unit
         });
     }
@@ -1379,6 +1438,7 @@ public partial class MainViewModel : ObservableObject
         OnPropertyChanged(nameof(CurrentViewModeLabel));
         OnPropertyChanged(nameof(CurrentStandardLabel));
         OnPropertyChanged(nameof(CurrentValveConfigurationLabel));
+        OnPropertyChanged(nameof(CurrentMaterialServiceLabel));
         OnPropertyChanged(nameof(CurrentStandardRecordLabel));
         OnPropertyChanged(nameof(CurrentSelectionCardTitle));
         OnPropertyChanged(nameof(CurrentSelectionCardValue));

@@ -7,6 +7,7 @@ public sealed class CalculationInput
     public string CaseName { get; set; } = "New Case";
     public CalculationStandardBasis StandardBasis { get; set; } = CalculationStandardBasis.Api520521Asme;
     public FluidType FluidType { get; set; } = FluidType.Gas;
+    public MaterialServiceCondition MaterialServiceCondition { get; set; } = MaterialServiceCondition.CleanNonCorrosive;
     public ReliefScenario ReliefScenario { get; set; } = ReliefScenario.Overpressure;
     public ValveConfiguration ValveConfiguration { get; set; } = ValveConfiguration.ConventionalSpring;
 

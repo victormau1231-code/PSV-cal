@@ -722,12 +722,22 @@ public sealed class SafetyValveCalculator : ISafetyValveCalculator
                 $"API orifice range exceeded under the {orifice.MaximumRecommendedUtilizationPercent:F0}% margin rule; the largest standard orifice {orifice.Selected.Letter} still provides only {orifice.Selected.AreaMm2 * (orifice.MaximumRecommendedUtilizationPercent / 100.0):F2} mm2 allowable area. Consider parallel valves or custom design. | 按 {orifice.MaximumRecommendedUtilizationPercent:F0}% 选型裕量规则核算时，API 标准最大孔口 {orifice.Selected.Letter} 的允许面积仍仅为 {orifice.Selected.AreaMm2 * (orifice.MaximumRecommendedUtilizationPercent / 100.0):F2} mm2，建议考虑并联阀或定制设计。");
         }
 
+        TrimMaterialRecommendation trimMaterialRecommendation = ApiTrimMaterialRecommender.Recommend(input);
+        if (ShouldPromoteTrimReviewToWarning(input))
+        {
+            foreach (string note in trimMaterialRecommendation.ReviewNotes)
+            {
+                warnings.Add($"Trim material review: {note}");
+            }
+        }
+
         return new CalculationResult
         {
             CalculatedAt = DateTimeOffset.Now,
             StandardVersion = standardProfile?.Name ?? CalculationStandardCatalog.GetDisplayName(input.StandardBasis),
             RequiredAreaMm2 = requiredAreaMm2,
             OrificeRecommendation = orifice,
+            TrimMaterialRecommendation = trimMaterialRecommendation,
             Intermediate = new IntermediateValues
             {
                 SetPressureValue = setPressureInput,
@@ -1613,5 +1623,14 @@ public sealed class SafetyValveCalculator : ISafetyValveCalculator
         double tFactor = (temperatureK - 373.15) / 500.0;
         double value = 1.0 - 0.03 * Math.Min(pMpa, 20.0) / 20.0 + 0.01 * tFactor;
         return Math.Clamp(value, zMin, zMax);
+    }
+
+    private static bool ShouldPromoteTrimReviewToWarning(CalculationInput input)
+    {
+        return input.MaterialServiceCondition is MaterialServiceCondition.DirtyAbrasiveTwoPhase
+                or MaterialServiceCondition.SourNace
+                or MaterialServiceCondition.ChlorideSeaWater
+            || input.FluidType is FluidType.TwoPhaseEquilibrium or FluidType.TwoPhaseSubcooled
+            || input.ReliefScenario == ReliefScenario.TubeRupture;
     }
 }

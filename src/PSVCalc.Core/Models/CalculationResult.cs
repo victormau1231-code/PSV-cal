@@ -10,8 +10,8 @@ public sealed class CalculationResult
     public double RequiredAreaIn2 => RequiredAreaMm2 / 645.16;
 
     public required OrificeRecommendation OrificeRecommendation { get; init; }
+    public required TrimMaterialRecommendation TrimMaterialRecommendation { get; init; }
     public required IntermediateValues Intermediate { get; init; }
     public required IReadOnlyList<ParameterAudit> ParameterAudits { get; init; }
     public required IReadOnlyList<string> Warnings { get; init; }
 }
-

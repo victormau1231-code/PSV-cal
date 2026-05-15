@@ -44,7 +44,7 @@ public sealed class ValidationHtmlReportRendererTests
 
         string html = renderer.Render(summary, Localize);
 
-        Assert.Contains("PSV Calculator Pro V 1.3.1", html);
+        Assert.Contains("PSV Calculator Pro V 1.3.2", html);
         Assert.Contains("Validation Report", html);
         Assert.Contains("Field &lt;Cases&gt;", html);
         Assert.Contains("Case-001", html);
@@ -60,7 +60,7 @@ public sealed class ValidationHtmlReportRendererTests
     {
         return key switch
         {
-            "app_title" => "PSV Calculator Pro V 1.3.1",
+            "app_title" => "PSV Calculator Pro V 1.3.2",
             "validation_report" => "Validation Report",
             "generated_at" => "Generated At",
             "software_version" => "Software Version",

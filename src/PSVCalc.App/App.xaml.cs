@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Threading;
@@ -29,7 +29,7 @@ public partial class App : Application
         {
             MessageBox.Show(
                 e.Exception.Message,
-                "PSV Calculator Pro V 1.3.1 Startup Error",
+                "PSV Calculator Pro V 1.3.2 Startup Error",
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
         }

@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
@@ -39,7 +39,7 @@ public partial class MainWindow : Window
             StartupLog.Write($"MainWindow startup failed: {ex}");
             MessageBox.Show(
                 $"Startup failed: {ex.Message}",
-                "PSV Calculator Pro V 1.3.1 Startup",
+                "PSV Calculator Pro V 1.3.2 Startup",
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
             Close();

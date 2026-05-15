@@ -113,6 +113,21 @@
                                                                   ToolTip="{Binding Loc[hint_pressure_unit]}" />
                                                     </StackPanel>
                                                 </Border>
+
+                                                <Border Grid.Row="4"
+                                                        Grid.Column="2"
+                                                        Grid.ColumnSpan="3"
+                                                        Style="{DynamicResource OverviewFieldCardStyle}">
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Loc[material_service_condition]}" Style="{DynamicResource OverviewFieldLabelStyle}" />
+                                                        <ComboBox ItemsSource="{Binding MaterialServiceOptions}"
+                                                                  DisplayMemberPath="Label"
+                                                                  SelectedValuePath="Value"
+                                                                  SelectedValue="{Binding MaterialServiceCondition}"
+                                                                  Style="{DynamicResource OverviewInputComboBoxStyle}"
+                                                                  ToolTip="{Binding Loc[hint_material_service]}" />
+                                                    </StackPanel>
+                                                </Border>
     
                                             </Grid>
                                         </Border>
