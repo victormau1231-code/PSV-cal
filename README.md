@@ -57,7 +57,7 @@ Chemical pressure safety valve sizing software built with `.NET 8 + WPF`.
 ## Build And Test
 
 ```powershell
-cd F:\AI\PSVCalc
+cd ~\PSVCalc
 dotnet build PSVCalc.sln
 dotnet test tests\PSVCalc.Tests\PSVCalc.Tests.csproj
 ```
@@ -65,7 +65,7 @@ dotnet test tests\PSVCalc.Tests\PSVCalc.Tests.csproj
 ## Run
 
 ```powershell
-cd F:\AI\PSVCalc\src\PSVCalc.App
+cd ~\PSVCalc.App
 dotnet run
 ```
 
