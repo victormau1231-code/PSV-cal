@@ -74,7 +74,6 @@ dotnet run
 To build a portable Windows package that includes the `.NET 8` runtime and can run on another `win-x64` machine without installing .NET:
 
 ```powershell
-cd F:\AI\PSVCalc
 powershell -ExecutionPolicy Bypass -File .\scripts\Publish-Portable.ps1
 ```
 
